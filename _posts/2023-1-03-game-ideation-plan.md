@@ -8,6 +8,10 @@ type: plans
 courses: { compsci: {week: 7} }
 ---
 
+## Brain dump:
+
+Start typing here
+
 ## Setting up Canvas + Player Character
 
 ### Characters

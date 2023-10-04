@@ -7,5 +7,3 @@ search_exclude: true
 
 
 # Posts
-
-A modified blog for CSA Based on Fastpages- Tirth Thakkar & Haseeb Beg   

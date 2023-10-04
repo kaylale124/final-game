@@ -2,13 +2,11 @@
 toc: true
 comments: false
 layout: post
-title: Game Ideation
+title: Game Ideation Working Plan
 description: Ideation plan for space invaders-type game
 type: plans
 courses: { compsci: {week: 7} }
 ---
-
-# Game Ideation Working Plan
 
 ## Setting up Canvas + Player Character
 

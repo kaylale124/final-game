@@ -8,7 +8,7 @@ type: plans
 courses: { compsci: {week: 7} }
 ---
 
-## Brain dump:
+## Brain Write
 
 Start typing here
 

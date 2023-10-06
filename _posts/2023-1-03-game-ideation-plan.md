@@ -16,7 +16,18 @@ There were space coyotes. Many space coyotes. An invading species bent on venega
 
 Let us welcome Armeneggon.
 
-## Setting up Canvas + Player Character
+## Screen 1: Starting Page
+
+### Game Start Screen
+- Design and text for start screen
+- Background
+
+### Identity
+- An option for chicken skin
+    - 6 colors
+- Team member names their chicken
+
+## Screen 2: The Game
 
 ### Characters
 
@@ -44,14 +55,25 @@ Let us welcome Armeneggon.
 
 Portrait oriented/vertical space background
 
-## Implementing Enemies
+### Implementing Enemies
 
 Enemy behavior (space coyotes):
 
 - every 2 seconds new rows of 4 coyotes come down 
 - every second coyotes shoot something (haven't decided yet)
 
-## Designing Platforms and Collision Detection
+### Interactive Blocks and Power-Ups
+
+Interactive Blocks: 
+
+Power-Ups:
+- Golden egg: doubles eggs per second shot
+
+### Creating a Dynamic Background (if time)
+
+## Screen 3: Game Over
+
+### Designing Platforms and Collision Detection
 
 Collision Detection
 - Make sure the chicken stays within borders

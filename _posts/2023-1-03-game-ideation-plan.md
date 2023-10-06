@@ -20,6 +20,7 @@ Let us welcome Armeneggon.
 
 ### Characters
 
+- Maryam 
 - Chicken (player)
     - Moves left and right (x), stays the same height (y)
     - Poops out eggs vertically
@@ -27,6 +28,7 @@ Let us welcome Armeneggon.
     - If the enemy touches the chicken, life is lost
     - Will get 3 lives
 
+- Lilian 
 - Space coyotes (enemies)
     - Makes another sprite for dead coyote
     - A group of them appear and start shooting lasers at the chicken

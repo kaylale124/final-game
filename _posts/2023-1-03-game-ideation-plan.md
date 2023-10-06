@@ -10,7 +10,11 @@ courses: { compsci: {week: 7} }
 
 ## Brain Write
 
-Start typing here
+In a chicken apocalypse far, far, FAR away...
+
+There were space coyotes. Many space coyotes. An invading species bent on venegance and the intensive hunger for colorful chickens. Lead by none other than the Chunky Carniverous Coyote. They raid the chicken's home planet far and wide, infecting the land with discord and agony. But you are not like the other chickens. You have seem your brethren bleed and cry and feel pain you never though imaginable. You are not a chicken. You are THE chicken. A brave hero for justice, a symbol of nature using their gift to wipe away the dreaded stain of these cretans. With your egg-shooting, you shall defeat every rank of coyote until none are left, and you shall bring havoc to their coyote kingdom. You shall be the bringer of demise to King Chunky.
+
+Now let's start launching some eggs!
 
 ## Setting up Canvas + Player Character
 

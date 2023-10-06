@@ -78,3 +78,12 @@ Collision Detection
 - Make a counter that subtracts health from space coyotes when they are hit with eggs
     - Make eggs disappear upon collision
     - Add to player score when space coyotes die upon enough collisions
+
+## Interactive Blocks and Power-Ups
+
+Interactive Blocks: 
+
+Power-Ups:
+- Golden egg: doubles eggs per second shot
+
+## Creating a Dynamic Background (if time)

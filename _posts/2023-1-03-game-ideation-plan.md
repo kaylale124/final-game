@@ -18,7 +18,7 @@ Let us welcome Armeneggon.
 
 ## Screen 1: Starting Page
 
-### Game Start Screen
+## Screen 1: Game Start
 - Vrnda
 - Design and text for start screen
 - Background
@@ -63,8 +63,6 @@ Enemy behavior (space coyotes):
 - every 2 seconds new rows of 4 coyotes come down 
 - every second coyotes shoot something (haven't decided yet)
 
-### Creating a Dynamic Background (if time)
-
 ## Screen 3: Game Over
 
 ### Designing Platforms and Collision Detection
@@ -77,6 +75,8 @@ Collision Detection
     - Add to player score when space coyotes die upon enough collisions
 
 ## If we have time
+
+### Creating a Dynamic Background (if time)  
 
 ### Interactive Blocks and Power-Ups
 

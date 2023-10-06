@@ -8,7 +8,7 @@ type: plans
 courses: { compsci: {week: 7} }
 ---
 
-## Brain Write
+## Brain Write (Lore)
 
 In a chicken apocalypse far, far, FAR away...
 
@@ -46,6 +46,8 @@ Portrait oriented/vertical space background
 
 Enemy behavior (space coyotes):
 
+- every 2 seconds new rows of 4 coyotes come down 
+- every second coyotes shoot something (haven't decided yet)
 
 ## Designing Platforms and Collision Detection
 
@@ -60,6 +62,6 @@ Collision Detection
 Interactive Blocks: 
 
 Power-Ups:
-- Golden egg
+- Golden egg: doubles eggs per second shot
 
 ## Creating a Dynamic Background (if time)

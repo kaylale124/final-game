@@ -19,10 +19,12 @@ Let us welcome Armeneggon.
 ## Screen 1: Starting Page
 
 ### Game Start Screen
+- Vrnda
 - Design and text for start screen
 - Background
 
 ### Identity
+- Maryam
 - An option for chicken skin
     - 6 colors
 - Team member names their chicken
@@ -47,27 +49,19 @@ Let us welcome Armeneggon.
 
 ### Object
 
+- Kayla
 - Egg
     - Find pixelated egg sprite
     - Eggs shoot from chicken's butt
 
-### Canvas
-
-Portrait oriented/vertical space background
 
 ### Implementing Enemies
 
+- Kayla
 Enemy behavior (space coyotes):
 
 - every 2 seconds new rows of 4 coyotes come down 
 - every second coyotes shoot something (haven't decided yet)
-
-### Interactive Blocks and Power-Ups
-
-Interactive Blocks: 
-
-Power-Ups:
-- Golden egg: doubles eggs per second shot
 
 ### Creating a Dynamic Background (if time)
 
@@ -75,17 +69,22 @@ Power-Ups:
 
 ### Designing Platforms and Collision Detection
 
+- Vrnda
 Collision Detection
 - Make sure the chicken stays within borders
 - Make a counter that subtracts health from space coyotes when they are hit with eggs
     - Make eggs disappear upon collision
     - Add to player score when space coyotes die upon enough collisions
 
-## Interactive Blocks and Power-Ups
+## If we have time
 
+### Interactive Blocks and Power-Ups
+
+-Lilian  
 Interactive Blocks: 
 
 Power-Ups:
 - Golden egg: doubles eggs per second shot
 
-## Creating a Dynamic Background (if time)
+### Creating a Dynamic Background (if time)
+- TBD

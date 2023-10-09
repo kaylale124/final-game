@@ -44,7 +44,7 @@ Let us welcome Armeneggon.
 - Lilian 
 - Space coyotes (enemies)
     - Makes another sprite for dead coyote
-    - A group of them appear and start shooting lasers at the chicken
+    - A group of them appear and start descending towards
     - Keep spawning indefinitely
 
 ### Object

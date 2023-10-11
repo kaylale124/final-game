@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Enemies
-image: /images/wolf-animation.png
+sprite: /images/wolf-animation.png
 type: hacks
 courses:
   compsci:
@@ -10,6 +10,8 @@ courses:
 
 <!DOCTYPE html>
 <html>
+{% assign spriteFile = site.baseurl | append: page.sprite %}
+
 <head>
 </head>
 <body>
@@ -22,6 +24,11 @@ courses:
 </body>
 
 <script>
+
+// Prepare Enemy Image
+const coyoteSprite = new Image();
+coyoteSprite.src = '{{spriteFile}}';
+
   /* Start on page load */
   window.addEventListener('load', function () {
     const canvas = document.getElementById('spriteContainer');

@@ -1,10 +1,91 @@
 ---
-layout: default
+layout: base
 title: Background/Canvas
-image: images/background.jpg
+image: /images/background.jpg
 type: hacks
 courses: { compsci: {week: 7} }
 ---
 
+<!-- Liquid code, run by Jekyll, used to define the location of assets -->
+{% assign backgroundFile = site.baseurl | append: page.image %}
 
+<style>
+    #controls {
+        position: relative;
+        z-index: 2; /* Ensure the controls are on top of the dog canvas */
+    }
+</style>
 
+<!-- Prepare DOM elements -->
+<div id="canvasContainer">
+    <div id="controls"> <!-- Controls -->
+        <!-- Background controls -->
+        <button id="toggleCanvasEffect">Invert</button>
+    </div>
+</div>
+
+<script type="module">
+import { initBackground } from '{{site.baseurl}}/assets/js/spaceBkg/Background.js';
+
+// Prepare Background Image
+const backgroundImg = new Image();
+backgroundImg.src = '{{backgroundFile}}';  // Jekyll/Liquid puts filename here
+
+// Set the canvas dimensions
+const canvasWidth = 375;
+const canvasHeight = 667;
+
+// Prepare HTML for Background Canvas
+const backgroundCanvas = document.createElement("canvas");
+backgroundCanvas.id = "background";
+backgroundCanvas.width = canvasWidth;
+backgroundCanvas.height = canvasHeight;
+document.body.appendChild(backgroundCanvas);
+
+backgroundImg.onload = function () {
+    // Game speed is a common game variable
+    var gameSpeed = 2;
+    // Background object(s)
+    var backgroundObj = initBackground(backgroundCanvas, backgroundImg, gameSpeed, 0.2);
+    
+    // Calculate the aspect ratio of the image
+    const imageAspectRatio = backgroundImg.width / backgroundImg.height;
+
+    // Calculate the dimensions to fit the image in the canvas without distortion
+    let newWidth, newHeight;
+
+    if (imageAspectRatio > canvasWidth / canvasHeight) {
+        newWidth = canvasWidth;
+        newHeight = newWidth / imageAspectRatio;
+    } else {
+        newHeight = canvasHeight;
+        newWidth = newHeight * imageAspectRatio;
+    }
+
+    // Calculate the positioning to center the image
+    const x = (canvasWidth - newWidth) / 2;
+    const y = (canvasHeight - newHeight) / 2;
+
+    const ctx = backgroundCanvas.getContext("2d");
+    ctx.drawImage(backgroundImg, x, y, newWidth, newHeight);
+    
+    function gameLoop() {
+        backgroundObj.draw();
+    }
+    gameLoop();
+}
+
+/* Toggle "canvas filter property" 
+* look in _sass/minima/dark-mode.scss  for default canvas filter
+*/
+var isFilterEnabled = true;
+const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+toggleCanvasEffect.addEventListener("click", function () {
+    if (isFilterEnabled) {
+        backgroundCanvas.style.filter = "none";  // remove filter
+    } else {
+        backgroundCanvas.style.filter = defaultFilter; // Apply the default filter value
+    }
+    isFilterEnabled = !isFilterEnabled;  // switch boolean value
+});
+</script>

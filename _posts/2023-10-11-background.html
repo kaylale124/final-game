@@ -14,6 +14,9 @@ courses: { compsci: {week: 7} }
         position: relative;
         z-index: 2; /* Ensure the controls are on top of the  canvas */
     }
+    #placeholder {
+        height: 850px;
+    }
 </style>
 
 <!-- Prepare DOM elements -->
@@ -25,6 +28,8 @@ courses: { compsci: {week: 7} }
         <img id="backgroundImage" src="{{backgroundFile}}">
     </canvas>
 </div>
+
+<div id="placeholder"></div>
 
 <script>
 // Prepare Background Image
@@ -38,8 +43,8 @@ const ctx = canvas.getContext('2d');
 
 
 // Prepare Window extents related to viewport
-const maxWidth = window.innerWidth;
-const maxHeight = window.innerHeight;
+const maxWidth = 443;
+const maxHeight = 788;
 
 backgroundImg.onload = function () {
     // Setup background constants from background image
@@ -51,8 +56,8 @@ backgroundImg.onload = function () {
     // Set Dimensions to match the image width
     const canvasWidth = maxWidth;
     const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
-    const canvasLeft = 0; // Start image from the left edge horizontally
-    const canvasTop = 0 // i love this line of code so much
+    const canvasLeft = 490;
+    const canvasTop = 140;
 
     // Set Style properties for the background canvas
     canvas.width = canvasWidth;

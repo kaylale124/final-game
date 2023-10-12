@@ -1,0 +1,140 @@
+---
+layout: base
+title: Start Screen
+image: /images/background2.jpg
+type: hacks
+courses: { compsci: {week: 7} }
+---
+
+<!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
+{% assign backgroundFile = site.baseurl | append: page.image %}
+
+<style>
+    #placeholder {
+        height: 700px;
+    }
+    #textOverlay {
+        position: absolute;
+        top: 50%; /* Vertically centered */
+        left: 50%; /* Horizontally centered */
+        transform: translate(-50%, -50%); /* Center the text */
+        text-align: center; /* Center the text horizontally */
+        color: rgb(0, 0, 0); /* Text color */
+        z-index: 2;
+    }
+    #textBackground {
+        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
+        padding: 10px 20px 10px 20px; /* Adjust the padding as needed (top right bottom left) */
+        border-radius: 5px; /* Rounded corners for the background */
+        display: inline-block; /* Make it inline so it wraps the text */
+    }
+    #textOverlay h1 {
+        font-size: 100px; /* Adjust the font size as needed */
+    }
+    #textOverlay p {
+        font-size: 50px; /* Adjust the font size as needed */
+    }
+</style>
+
+<!-- Prepare DOM elements -->
+<div id="canvasContainer">
+    <canvas id="backgroundID">
+        <img id="backgroundImage" src="{{backgroundFile}}">
+    </canvas>
+</div>
+
+<div id="textOverlay">
+    <div id="textBackground">
+        <h1>The Armeneggon</h1>
+        <p><em>A Space Invaders Game</em></p>
+    </div>
+</div>
+
+<div id="placeholder"></div>
+
+
+<script>
+    // Prepare Background Image
+    const backgroundImg = new Image();
+    backgroundImg.src = '{{backgroundFile}}';  // Jekyll/Liquid puts filename here
+    
+    
+    // Prepare Canvas
+    const canvas = document.getElementById("backgroundID");
+    const ctx = canvas.getContext('2d');
+    
+    
+    // Prepare Window extents related to viewport
+    const maxWidth = 1440;
+    const maxHeight = 671;
+    
+    backgroundImg.onload = function () {
+        // Setup background constants from background image
+        const WIDTH = backgroundImg.width;  // Image() width (meta data)
+        const HEIGHT = backgroundImg.height; // Image() height
+        const ASPECT_RATIO = WIDTH / HEIGHT;
+        const ADJUST = 1.42 // visual layer adjust, use "1"" for a perfect loop 
+    
+        // Set Dimensions to match the image width
+        const canvasWidth = maxWidth;
+        const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
+        const canvasLeft = 0;
+        const canvasTop = 60;
+    
+        // Set Style properties for the background canvas
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;    
+        canvas.style.width = `${canvasWidth}px`;
+        canvas.style.height = `${canvasHeight}px`;
+        canvas.style.position = 'absolute';
+        canvas.style.left = `${canvasLeft}px`;
+        canvas.style.top = `${canvasTop}px`;
+    
+        // Game speed is a common game variable
+        var gameSpeed = 2;
+    
+        // Layer is set up to support Parallax, multiple layers
+        class Layer {
+            constructor(image, speedRatio) {
+                this.x = 0;
+                this.y = 0;
+                this.width = WIDTH;
+                this.height = HEIGHT;
+                this.image = image;
+                this.speedRatio = speedRatio;
+                this.speed = gameSpeed * this.speedRatio;
+                this.frame = 0;
+            }
+            update() {
+                this.x = (this.x - this.speed) % this.width;
+            }
+            draw() {
+                ctx.drawImage(this.image, this.x, this.y, canvas.width, canvas.height);
+            }
+            
+        }
+        
+    
+        // Background object
+        var backgroundObj = new Layer(backgroundImg, 0.2);
+    
+        // Animation loop
+        function animation() {
+            backgroundObj.draw();
+    
+            requestAnimationFrame(animation);  // cycle animation, recursion
+        }
+    
+        // Start animation process
+        animation();
+    
+        //Invert the colors
+        var isFilterEnabled = true;
+        const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+        if (isFilterEnabled) {
+            canvas.style.filter = "none";  // remove filter
+        } else {
+            canvas.style.filter = defaultFilter; // Apply the default filter value
+        }
+    }
+</script>

@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Background/Canvas
+title: Background/Canvas TWO
 image: /images/background2.jpg
 type: hacks
 courses: { compsci: {week: 7} }
@@ -10,20 +10,13 @@ courses: { compsci: {week: 7} }
 {% assign backgroundFile = site.baseurl | append: page.image %}
 
 <style>
-    #controls {
-        position: relative;
-        z-index: 2; /* Ensure the controls are on top of the  canvas */
-    }
     #placeholder {
-        height: 700px;
+        height: 612px;
     }
 </style>
 
 <!-- Prepare DOM elements -->
 <div id="canvasContainer">
-    <div id="controls"> <!-- Controls -->
-        <button id="toggleCanvasEffect">Invert</button>
-    </div>
     <canvas id="backgroundID">
         <img id="backgroundImage" src="{{backgroundFile}}">
     </canvas>
@@ -57,7 +50,7 @@ backgroundImg.onload = function () {
     const canvasWidth = maxWidth;
     const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
     const canvasLeft = 0;
-    const canvasTop = 130;
+    const canvasTop = 60;
 
     // Set Style properties for the background canvas
     canvas.width = canvasWidth;
@@ -105,17 +98,14 @@ backgroundImg.onload = function () {
 
     // Start animation process
     animation();
+
+    //Invert the colors
     var isFilterEnabled = true;
     const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
-    toggleCanvasEffect.addEventListener("click", function () {
-        if (isFilterEnabled) {
-            canvas.style.filter = "none";  // remove filter
-        } else {
-            canvas.style.filter = defaultFilter; // Apply the default filter value
-        }
-
-        isFilterEnabled = !isFilterEnabled;  // switch boolean value
-    });
+    if (isFilterEnabled) {
+        canvas.style.filter = "none";  // remove filter
+    } else {
+        canvas.style.filter = defaultFilter; // Apply the default filter value
+    }
 }
-
 </script>

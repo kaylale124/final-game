@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Background/Canvas
-image: /images/background.jpg
+image: /images/background2.jpg
 type: hacks
 courses: { compsci: {week: 7} }
 ---
@@ -15,7 +15,7 @@ courses: { compsci: {week: 7} }
         z-index: 2; /* Ensure the controls are on top of the  canvas */
     }
     #placeholder {
-        height: 850px;
+        height: 700px;
     }
 </style>
 
@@ -43,8 +43,8 @@ const ctx = canvas.getContext('2d');
 
 
 // Prepare Window extents related to viewport
-const maxWidth = 443;
-const maxHeight = 788;
+const maxWidth = 1440;
+const maxHeight = 671;
 
 backgroundImg.onload = function () {
     // Setup background constants from background image
@@ -56,8 +56,8 @@ backgroundImg.onload = function () {
     // Set Dimensions to match the image width
     const canvasWidth = maxWidth;
     const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
-    const canvasLeft = 490;
-    const canvasTop = 140;
+    const canvasLeft = 0;
+    const canvasTop = 130;
 
     // Set Style properties for the background canvas
     canvas.width = canvasWidth;

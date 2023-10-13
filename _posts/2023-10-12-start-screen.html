@@ -11,7 +11,7 @@ courses: { compsci: {week: 7} }
 
 <style>
     #placeholder {
-        height: 700px;
+        height: 612px;
     }
     #textOverlay {
         position: absolute;
@@ -34,6 +34,23 @@ courses: { compsci: {week: 7} }
     #textOverlay p {
         font-size: 50px; /* Adjust the font size as needed */
     }
+    #textOverlay h3 {
+        font-size: 25px; /* Adjust the font size as needed */
+    }
+    #textOverlay button {
+        font-size: 25px;
+    }
+    #startScreen {
+        font-size: 25px; /* Adjust the font size as needed */
+        text-align: left;
+        position: absolute;
+        top: 50%; /* Vertically centered */
+        left: 400px; /* Horizontally centered */
+        /* transform: translate(-50%, -50%); Center the div */
+    }
+    .hidden {
+        display: none;
+    }
 </style>
 
 <!-- Prepare DOM elements -->
@@ -45,12 +62,24 @@ courses: { compsci: {week: 7} }
 
 <div id="textOverlay">
     <div id="textBackground">
+        <!-- loading screen-->
         <h1>The Armeneggon</h1>
         <p><em>A Space Invaders Game</em></p>
+        <div id="start">
+            <button id="startButton">Start</button>
+        </div>
     </div>
 </div>
 
 <div id="placeholder"></div>
+
+<!-- start screen-->
+<div class="textOverlay">
+<div id="startScreen" class="hidden">
+    <h3>Choose your character</h3>
+</div>
+</div>
+
 
 
 <script>
@@ -137,4 +166,15 @@ courses: { compsci: {week: 7} }
             canvas.style.filter = defaultFilter; // Apply the default filter value
         }
     }
+
+startButton.onclick = function (){
+    var textBackground = document.getElementById("textBackground");
+    textOverlay.remove();
+}
+
+document.getElementById('startButton').addEventListener('click', function() {
+    var startScreen = document.getElementById('startScreen');
+    startScreen.classList.remove('hidden');
+});
+
 </script>

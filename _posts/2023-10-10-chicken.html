@@ -2,9 +2,150 @@
 layout: default
 title: Chicken/Player Sprite
 image: /images/background.jpg
+sprite: /images/whitechicken.png
 type: hacks
 courses: { compsci: {week: 7} }
 ---
 
 <!-- Jekyll Liquid Code-->
 {% assign backgroundFile = site.baseurl | append: page.image %}
+
+{% assign spriteFile = site.baseurl | append: page.sprite %}
+
+<style>
+    #canvas {
+        margin: 0;
+        border: 1px solid white;
+    }
+</style>
+<canvas id='canvas'></canvas>
+<div id="canvasContainer">
+    <div id="controls"> <!-- Controls -->
+        <button id="toggleCanvasEffect">Invert</button>
+    </div>
+</div>
+<script>
+    // Create empty canvas
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    // Set the canvas dimensions
+    canvas.width = 650;
+    canvas.height = 400;
+
+    const image = new Image();
+    image.src = '{{ spriteFile }}';
+
+    // Define the Player class
+    class Player {
+        constructor() {
+            // Initial position and velocity of the player
+            this.position = {
+                x: 100,
+                y: 200
+            };
+            this.speed = 5; // Adjust the speed as needed
+            // Dimensions of the player
+            this.width = 30;
+            this.height = 30;
+        }
+        // Method to draw the player on the canvas using the chicken image
+        draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            ctx.drawImage(image, this.position.x, this.position.y, this.width, this.height);
+        }
+    }
+
+    // Create a player object
+    const player = new Player();
+
+    // Define keyboard keys and their states
+    let keys = {
+        right: {
+            pressed: false
+        },
+        left: {
+            pressed: false
+        },
+        up: {
+            pressed: false
+        },
+        down: {
+            pressed: false
+        }
+    };
+
+    // Animation function to continuously update and render the canvas
+    function animate() {
+        requestAnimationFrame(animate);
+        player.draw();
+
+        // Update player position based on key states
+        if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
+            player.position.x += player.speed;
+        }
+
+        if (keys.left.pressed && player.position.x >= player.speed) {
+            player.position.x -= player.speed;
+        }
+
+        if (keys.down.pressed && player.position.y + player.height <= canvas.height - player.speed) {
+            player.position.y += player.speed;
+        }
+
+        if (keys.up.pressed && player.position.y >= player.speed) {
+            player.position.y -= player.speed;
+        }
+    }
+
+    animate();
+
+    // Event listener for keydown events
+    addEventListener('keydown', ({ keyCode }) => {
+        switch (keyCode) {
+            case 65:
+                keys.left.pressed = true;
+                break;
+            case 83:
+                keys.down.pressed = true;
+                break;
+            case 68:
+                keys.right.pressed = true;
+                break;
+            case 87:
+                keys.up.pressed = true;
+                break;
+        }
+    });
+
+    // Event listener for keyup events
+    addEventListener('keyup', ({ keyCode }) => {
+        switch (keyCode) {
+            case 65:
+                keys.left.pressed = false;
+                break;
+            case 83:
+                keys.down.pressed = false;
+                break;
+            case 68:
+                keys.right.pressed = false;
+                break;
+            case 87:
+                keys.up.pressed = false;
+                break;
+        }
+    });
+
+    function toggleCanvasEffect() {
+        const canvasFilter = canvas.style.filter;
+        if (canvasFilter.includes("invert")) {
+            // If the filter already contains invert, remove it
+            canvas.style.filter = "none";
+        } else {
+            // Otherwise, add invert to the filter
+            canvas.style.filter = "invert(100%)";
+        }
+    };
+
+    document.getElementById("toggleCanvasEffect").addEventListener("click", toggleCanvasEffect);
+
+</script>

@@ -7,9 +7,21 @@ courses: { compsci: {week: 7} }
 ---
 
 
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 {% assign spriteFile = site.baseurl | append: page.sprite %}
+
+
+
+
+
+
 
 
 <head>
@@ -24,117 +36,109 @@ courses: { compsci: {week: 7} }
 </body>
 
 
+
+
+
+
+
+
 <script>
-    const coyoteSprite = new Image();
-    coyoteSprite.onload = function() {
-        // Run the first animate when the image is loaded
-        animate();
-    };
-    coyoteSprite.src = '{{spriteFile}}';
-    
-    window.addEventListener('load', function () {
-        const canvas = document.getElementById('spriteContainer');
-        const ctx = canvas.getContext('2d');
-        const SPRITE_WIDTH = 85;
-        const SPRITE_HEIGHT = 165;
-        const FRAME_LIMIT = 4;
-        const SCALE_FACTOR = 1;
-        canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
-        canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
-    
-        class Coyote {
-            constructor({ position, image }) {
-                this.image = image;
-                this.x = 0;
-                this.y = 0;
-                this.minFrame = 0;
-                this.maxFrame = FRAME_LIMIT;
-                this.frameX = 0;
-                this.frameY = 0;
-                this.position = {
-                    x: position.x,
-                    y: position.y
-                };
-            }
-    
-            draw(context) {
-                context.drawImage(
-                    this.image,
-                    this.frameX * SPRITE_WIDTH,
-                    this.frameY * SPRITE_HEIGHT,
-                    SPRITE_WIDTH,
-                    SPRITE_HEIGHT,
-                    this.x,
-                    this.y,
-                    canvas.width,
-                    canvas.height
-                );
-            }
-    
-            update() {
-                if (this.frameX < this.maxFrame) {
-                    this.frameX++;
-                } else {
-                    this.frameX = 0;
-                }
-            }
-        }
-    
-        class Grid {
-            constructor() {
-                this.position = {
-                    x: 0,
-                    y: 0
-                };
-                this.velocity = {
-                    x: 0,
-                    y: 0
-                };
-                this.coyotes = [];
-    
-                for (let i = 0; i < 10; i++) {
-                    this.coyotes.push(new Coyote({
-                        position: {
-                            x: i * 30,
-                            y: 0
-                        },
-                        image: coyoteSprite
-                    }));
-                }
-            }
-        }
-    
-        const grids = [];
-    
-        for (let i = 0; i < 5; i++) {
-            grids.push(new Grid());
-        }
-    
-        const frameRate = 5;
-        const frameInterval = 1000 / frameRate;
-        let lastFrameTime = 0;
-    
-        function animate(currentTime) {
-            const deltaTime = currentTime - lastFrameTime;
-    
-            if (deltaTime >= frameInterval) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-                grids.forEach(grid => {
-                    grid.coyotes.forEach(coyote => {
-                        coyote.draw(ctx);
-                        coyote.update();
-                    });
-                });
-    
-                lastFrameTime = currentTime;
-                requestAnimationFrame(animate);
-            } else {
-                requestAnimationFrame(animate);
-            }
-        }
-    
-        animate();
-    });
-    </script>
-    </html>
+// Prepare Enemy Image
+const coyoteSprite = new Image();
+coyoteSprite.src = '{{spriteFile}}';
+/* Start on page load */
+window.addEventListener('load', function () {
+const canvas = document.getElementById('spriteContainer');
+const ctx = canvas.getContext('2d');
+const SPRITE_WIDTH = 85; // Matches sprite pixel width
+const SPRITE_HEIGHT = 165; // Matches sprite pixel height
+const FRAME_LIMIT = 4; // Matches the number of frames per sprite row; this code assumes each row is the same
+const SCALE_FACTOR = 1; // Control size of sprite on canvas
+// Number of rows and columns in the grid
+const ROWS = 5;
+const COLUMNS = 10;
+canvas.width = SPRITE_WIDTH * COLUMNS * SCALE_FACTOR*3;
+canvas.height = SPRITE_HEIGHT * ROWS * SCALE_FACTOR*3;
+class Coyote {
+constructor(x, y) {
+this.image = coyoteSprite;
+this.x = x;
+this.y = y;
+this.minFrame = 0;
+this.maxFrame = FRAME_LIMIT;
+this.frameX = 0;
+this.frameY = 0;
+}
+/* Draw coyote object */
+draw(context) {
+context.drawImage(
+this.image,
+this.frameX * SPRITE_WIDTH,
+this.frameY * SPRITE_HEIGHT,
+SPRITE_WIDTH,
+SPRITE_HEIGHT,
+this.x,
+this.y,
+SPRITE_WIDTH * SCALE_FACTOR, // Adjusted for scale
+SPRITE_HEIGHT * SCALE_FACTOR // Adjusted for scale
+);
+}
+/* Update frameX of object */
+update() {
+if (this.frameX < this.maxFrame) {
+this.frameX++;
+} else {
+this.frameX = 0;
+}
+}
+}
+const frameRate = 5; // Adjust the frame rate to your desired value (frames per second)
+const frameInterval = 1000 / frameRate; // Time in milliseconds between frames
+let lastFrameTime = 0;
+// Create a 2D array to manage the grid of coyotes
+const coyotes = [];
+for (let row = 0; row < ROWS; row++) {
+coyotes[row] = [];
+for (let col = 0; col < COLUMNS; col++) {
+coyotes[row][col] = new Coyote(col * SPRITE_WIDTH * SCALE_FACTOR, row * SPRITE_HEIGHT * SCALE_FACTOR);
+}
+}
+let gridY = 0; // Initial position of the grid
+const screenHeight = window.innerHeight; // Get the screen height
+function animate(currentTime) {
+// Calculate the time elapsed since the last frame
+const deltaTime = currentTime - lastFrameTime;
+// Check if enough time has passed to update the frame
+if (deltaTime >= frameInterval) {
+// Clears the canvas to remove the previous frame
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Move the entire grid downwards based on screen position
+gridY += 2; // Adjust the speed as needed
+// Ensure the grid stays within the screen height
+if (gridY > screenHeight) {
+gridY = 0;
+}
+// Draw all coyotes in the grid and update their positions based on the gridY
+for (let row = 0; row < ROWS; row++) {
+for (let col = 0; col < COLUMNS; col++) {
+coyotes[row][col].draw(ctx);
+coyotes[row][col].y = coyotes[row][col].y + gridY; // Update y position based on gridY
+coyotes[row][col].update();
+}
+}
+lastFrameTime = currentTime; // Update the last frame time
+// Use `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate
+requestAnimationFrame(animate);
+} else {
+// If not enough time has passed, call `requestAnimationFrame` again
+requestAnimationFrame(animate);
+}
+}
+/* Run the first animate */
+animate();
+});
+</script>
+</html>
+
+
+

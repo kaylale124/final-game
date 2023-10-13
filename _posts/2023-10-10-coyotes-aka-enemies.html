@@ -1,100 +1,107 @@
 ---
 layout: default
 title: Enemies
-sprite: /images/wolf-animation.png
+sprite: /images/wolf-animation2.png
 type: hacks
 courses: { compsci: {week: 7} }
 ---
+
 
 <!DOCTYPE html>
 <html>
 {% assign spriteFile = site.baseurl | append: page.sprite %}
 
+
 <head>
 </head>
 <body>
-  <div>
-    <canvas id="spriteContainer">
-      <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-      <img id="coyoteSprite" src="/images/wolf-animation.png"> <!-- change sprite here -->
-    </canvas>
-  </div>
+<div>
+<canvas id="spriteContainer">
+<!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+<img id="coyoteSprite" src="{{spriteFile}}"> <!-- change sprite here -->
+</canvas>
+</div>
 </body>
 
-<script>
 
+<script>
 // Prepare Enemy Image
 const coyoteSprite = new Image();
 coyoteSprite.src = '{{spriteFile}}';
-
-  /* Start on page load */
-  window.addEventListener('load', function () {
-    const canvas = document.getElementById('spriteContainer');
-    const ctx = canvas.getContext('2d');
-    const SPRITE_WIDTH = 32; // Matches sprite pixel width
-    const SPRITE_HEIGHT = 17; // Matches sprite pixel height
-    const FRAME_LIMIT = 8; // Matches the number of frames per sprite row; this code assumes each row is the same
-
-    const SCALE_FACTOR = 10; // Control size of sprite on canvas
-    canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
-    canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
-
-    class Coyote {
-      constructor() {
-        this.image = document.getElementById("coyoteSprite");
-        this.x = 0;
-        this.y = 0;
-        this.minFrame = 0;
-        this.maxFrame = FRAME_LIMIT;
-        this.frameX = 0;
-        this.frameY = 0;
-      }
-
-      /* Draw coyote object */
-      draw(context) {
-        context.drawImage(
-          this.image,
-          this.frameX * SPRITE_WIDTH,
-          this.frameY * SPRITE_HEIGHT,
-          SPRITE_WIDTH,
-          SPRITE_HEIGHT,
-          this.x,
-          this.y,
-          canvas.width,
-          canvas.height
-        );
-      }
-
-      /* Update frameX of object */
-      update() {
-        if (this.frameX < this.maxFrame) {
-          this.frameX++;
-        } else {
-          this.frameX = 0;
-        }
-      }
-    }
-
-    /* Coyote object */
-    const coyote = new Coyote();
-
-    /* Animation recursive control function */
-    function animate() {
-      /* Clears the canvas to remove the previous frame */
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      /* Draws the current frame of the sprite */
-      coyote.draw(ctx);
-
-      /* Updates the `frameX` property to prepare for the next frame in the sprite sheet */
-      coyote.update();
-
-      /* Uses `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate, ensuring smooth visuals */
-      requestAnimationFrame(animate);
-    }
-
-    /* Run the first animate */
-    animate();
-  });
+/* Start on page load */
+window.addEventListener('load', function () {
+const canvas = document.getElementById('spriteContainer');
+const ctx = canvas.getContext('2d');
+const SPRITE_WIDTH = 85; // Matches sprite pixel width
+const SPRITE_HEIGHT = 165; // Matches sprite pixel height
+const FRAME_LIMIT = 4; // Matches the number of frames per sprite row; this code assumes each row is the same
+const SCALE_FACTOR = 1; // Control size of sprite on canvas
+canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
+canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
+class Coyote {
+constructor() {
+this.image = coyoteSprite;
+this.x = 0;
+this.y = 0;
+this.minFrame = 0;
+this.maxFrame = FRAME_LIMIT;
+this.frameX = 0;
+this.frameY = 0;
+}
+/* Draw coyote object */
+draw(context) {
+context.drawImage(
+this.image,
+this.frameX * SPRITE_WIDTH,
+this.frameY * SPRITE_HEIGHT,
+SPRITE_WIDTH,
+SPRITE_HEIGHT,
+this.x,
+this.y,
+canvas.width,
+canvas.height
+);
+}
+/* Update frameX of object */
+update() {
+if (this.frameX < this.maxFrame) {
+this.frameX++;
+} else {
+this.frameX = 0;
+}
+}
+}
+const frameRate = 5; // Adjust the frame rate to your desired value (frames per second)
+const frameInterval = 1000 / frameRate; // Time in milliseconds between frames
+let lastFrameTime = 0;
+function animate(currentTime) {
+// Calculate the time elapsed since the last frame
+const deltaTime = currentTime - lastFrameTime;
+// Check if enough time has passed to update the frame
+if (deltaTime >= frameInterval) {
+// Clears the canvas to remove the previous frame
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Draws the current frame of the sprite
+coyote.draw(ctx);
+// Updates the `frameX` property to prepare for the next frame in the sprite sheet
+coyote.update();
+lastFrameTime = currentTime; // Update the last frame time
+// Use `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate
+requestAnimationFrame(animate);
+} else {
+// If not enough time has passed, call `requestAnimationFrame` again
+requestAnimationFrame(animate);
+}
+}
+/* Coyote object */
+const coyote = new Coyote();
+/* Run the first animate */
+animate();
+});
 </script>
 </html>
+
+
+
+
+

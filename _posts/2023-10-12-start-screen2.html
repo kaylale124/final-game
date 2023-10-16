@@ -11,28 +11,58 @@ courses: { compsci: {week: 7} }
 
 <style>
     #placeholder {
-        height: 700px;
+        height: 579px;
     }
-    #textOverlay {
+    canvas {
+        position: absolute;
+        top: 60px;
+        bottom: 205px;
+        left: 0;
+        width: 100%;
+    }
+    #textBackground {
+        height: 600px;
+        width: 980px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px; /* Rounded corners for the background */
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
+    }
+    #mainScreen {
         position: absolute;
         top: 50%; /* Vertically centered */
         left: 50%; /* Horizontally centered */
         transform: translate(-50%, -50%); /* Center the text */
         text-align: center; /* Center the text horizontally */
-        color: rgb(0, 0, 0); /* Text color */
-        z-index: 2;
+        color: rgb(0, 0, 0);
+        z-index: 2; /* places element on top of other elements (bring to front) */
     }
-    #textBackground {
-        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
-        padding: 10px 20px 10px 20px; /* Adjust the padding as needed (top right bottom left) */
-        border-radius: 5px; /* Rounded corners for the background */
-        display: inline-block; /* Make it inline so it wraps the text */
+    #mainScreen h1 {
+        font-size: 100px;
     }
-    #textOverlay h1 {
-        font-size: 100px; /* Adjust the font size as needed */
+    #mainScreen p {
+        font-size: 50px;
     }
-    #textOverlay p {
-        font-size: 50px; /* Adjust the font size as needed */
+    #mainScreen h3 {
+        font-size: 25px;
+    }
+    #mainScreen button {
+        font-size: 25px;
+    }
+    #startScreen {
+        text-align: left;
+        position: absolute;
+        top: 80px;
+        left: 270px;
+        color: rgb(0, 0, 0);
+    }
+    #startScreen h1 {
+        font-size: 50px;
+    }
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -43,15 +73,24 @@ courses: { compsci: {week: 7} }
     </canvas>
 </div>
 
-<div id="textOverlay">
-    <div id="textBackground">
-        <h1>The Armeneggon</h1>
-        <p><em>A Space Invaders Game</em></p>
+<div id="textBackground">
+</div>
+
+<!-- loading screen-->
+<div id="mainScreen">
+    <h1>The Armeneggon</h1>
+    <p><em>A Space Invaders Game</em></p>
+    <div id="start">
+        <button id="startButton">Start</button>
     </div>
 </div>
 
 <div id="placeholder"></div>
 
+<!-- start screen-->
+<div id="startScreen" class="hidden">
+        <h1>Choose your character</h1>
+</div>
 
 <script>
     // Prepare Background Image
@@ -65,8 +104,8 @@ courses: { compsci: {week: 7} }
     
     
     // Prepare Window extents related to viewport
-    const maxWidth = 1440;
-    const maxHeight = 671;
+    const maxWidth = window.innerWidth - 15;
+    const maxHeight = window.innerHeight - 265;
     
     backgroundImg.onload = function () {
         // Setup background constants from background image
@@ -109,7 +148,7 @@ courses: { compsci: {week: 7} }
                 this.x = (this.x - this.speed) % this.width;
             }
             draw() {
-                ctx.drawImage(this.image, this.x, this.y, canvas.width, canvas.height);
+                ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
             }
             
         }
@@ -137,4 +176,13 @@ courses: { compsci: {week: 7} }
             canvas.style.filter = defaultFilter; // Apply the default filter value
         }
     }
+
+
+document.getElementById('startButton').addEventListener('click', function() {
+    var mainScreen = document.getElementById("mainScreen");
+    mainScreen.remove();
+    var startScreen = document.getElementById('startScreen');
+    startScreen.classList.remove('hidden');
+});
+
 </script>

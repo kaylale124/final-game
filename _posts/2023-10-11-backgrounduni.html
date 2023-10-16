@@ -11,7 +11,14 @@ courses: { compsci: {week: 7} }
 
 <style>
     #placeholder {
-        height: 612px;
+        height: 579px;
+    }
+    canvas {
+        position: absolute;
+        top: 60px;
+        bottom: 205px;
+        left: 0;
+        width: 100%;
     }
 </style>
 
@@ -34,10 +41,9 @@ backgroundImg.src = '{{backgroundFile}}';  // Jekyll/Liquid puts filename here
 const canvas = document.getElementById("backgroundID");
 const ctx = canvas.getContext('2d');
 
-
 // Prepare Window extents related to viewport
-const maxWidth = 1440;
-const maxHeight = 671;
+const maxWidth = window.innerWidth - 15;
+const maxHeight = window.innerHeight - 265;
 
 backgroundImg.onload = function () {
     // Setup background constants from background image
@@ -53,8 +59,8 @@ backgroundImg.onload = function () {
     const canvasTop = 60;
 
     // Set Style properties for the background canvas
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 265;   
     canvas.style.width = `${canvasWidth}px`;
     canvas.style.height = `${canvasHeight}px`;
     canvas.style.position = 'absolute';
@@ -80,7 +86,7 @@ backgroundImg.onload = function () {
             this.x = (this.x - this.speed) % this.width;
         }
         draw() {
-            ctx.drawImage(this.image, this.x, this.y, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
         }
         
     }

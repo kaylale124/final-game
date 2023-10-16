@@ -98,18 +98,14 @@ courses: { compsci: {week: 7} }
         // Update player position based on key states
         if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
             player.position.x += player.speed;
-            player.rotation = -0.15;
+            player.rotation = 0.15;
         } 
         else if (keys.left.pressed && player.position.x >= player.speed) {
             player.position.x -= player.speed;
-            player.rotation = 0.15;
-        }
-        if (keys.down.pressed && player.position.y + player.height <= canvas.height - player.speed) {
-            player.position.y += player.speed;
-        }
-
-        if (keys.up.pressed && player.position.y >= player.speed) {
-            player.position.y -= player.speed;
+            player.rotation = -0.15;
+        } else {
+            player.position.x = 0
+            player.rotation = 0;
         }
     }
 

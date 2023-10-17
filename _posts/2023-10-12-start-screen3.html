@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Start Screen
+title: Start Screen TEST
 image: /images/bkgbox.png
 type: hacks
 courses: { compsci: {week: 7} }
@@ -115,25 +115,33 @@ courses: { compsci: {week: 7} }
     
     
     // Prepare Window extents related to viewport
-    const maxWidth = window.innerWidth - 15;
-    const maxHeight = window.innerHeight - 265;
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
+
+    // Account for the header height
+    const headerHeight = document.querySelector('header').offsetHeight;
+
+    // Calculate the top position
+    const topPosition = headerHeight + ((maxHeight - headerHeight) / 2);
     
     backgroundImg.onload = function () {
         // Setup background constants from background image
         const WIDTH = backgroundImg.width;  // Image() width (meta data)
         const HEIGHT = backgroundImg.height; // Image() height
         const ASPECT_RATIO = WIDTH / HEIGHT;
-        const ADJUST = 1.42 // visual layer adjust, use "1"" for a perfect loop 
-    
+        const ADJUST = 1.42; // visual layer adjust, use “1” for a perfect loop   
+         
         // Set Dimensions to match the image width
         const canvasWidth = maxWidth;
         const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
         const canvasLeft = 0;
         const canvasTop = 60;
     
+        // Set dimensions for the background canvas
+        canvas.width = WIDTH / ADJUST;
+        canvas.height = HEIGHT / ADJUST;
+
         // Set Style properties for the background canvas
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;    
         canvas.style.width = `${canvasWidth}px`;
         canvas.style.height = `${canvasHeight}px`;
         canvas.style.position = 'absolute';

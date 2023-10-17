@@ -1,7 +1,7 @@
 ---
 layout: base
-title: Start Screen TEST
-image: /images/bkgbox.png
+title: Start Screen
+image: /images/background2.jpg
 type: hacks
 courses: { compsci: {week: 7} }
 ---
@@ -11,7 +11,7 @@ courses: { compsci: {week: 7} }
 
 <style>
     #placeholder {
-        height: 605px;
+        width: 100%;
     }
     canvas {
         position: absolute;
@@ -27,18 +27,16 @@ courses: { compsci: {week: 7} }
         top: 0;
         left: 0;
     }
-    /*
     #textBackground {
         height: 600px;
         width: 980px;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        border-radius: 5px; /* Rounded corners for the background
+        border-radius: 5px; /* Rounded corners for the background*/
         position: absolute;
-        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency 
+        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
     }
-    */
     #mainScreen {
         position: absolute;
         top: 50%; /* Vertically centered */
@@ -123,79 +121,92 @@ courses: { compsci: {week: 7} }
 
     // Calculate the top position
     const topPosition = headerHeight + ((maxHeight - headerHeight) / 2);
-    
-    backgroundImg.onload = function () {
-        // Setup background constants from background image
-        const WIDTH = backgroundImg.width;  // Image() width (meta data)
-        const HEIGHT = backgroundImg.height; // Image() height
-        const ASPECT_RATIO = WIDTH / HEIGHT;
-        const ADJUST = 1.42; // visual layer adjust, use “1” for a perfect loop   
-         
-        // Set Dimensions to match the image width
-        const canvasWidth = maxWidth;
-        const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
-        const canvasLeft = 0;
-        const canvasTop = 60;
-    
-        // Set dimensions for the background canvas
-        canvas.width = WIDTH / ADJUST;
-        canvas.height = HEIGHT / ADJUST;
 
-        // Set Style properties for the background canvas
-        canvas.style.width = `${canvasWidth}px`;
-        canvas.style.height = `${canvasHeight}px`;
-        canvas.style.position = 'absolute';
-        canvas.style.left = `${canvasLeft}px`;
-        canvas.style.top = `${canvasTop}px`;
+    // Prepare placeholder element
+    const placeholder = document.getElementById('placeholder');
     
-        // Game speed is a common game variable
-        var gameSpeed = 2;
+backgroundImg.onload = function () {
+    // Setup background constants from background image
+    const WIDTH = backgroundImg.width;  // Image() width (meta data)
+    const HEIGHT = backgroundImg.height; // Image() height
+    const ASPECT_RATIO = WIDTH / HEIGHT;
+    const ADJUST = 1.42; // visual layer adjust, use “1” for a perfect loop   
+         
+    // Set Dimensions to match the image width
+    const canvasWidth = maxWidth;
+    const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
+    const canvasLeft = 0;
+    const canvasTop = 60;
     
-        // Layer is set up to support Parallax, multiple layers
-        class Layer {
-            constructor(image, speedRatio) {
-                this.x = 0;
-                this.y = 0;
-                this.width = WIDTH;
-                this.height = HEIGHT;
-                this.image = image;
-                this.speedRatio = speedRatio;
-                this.speed = gameSpeed * this.speedRatio;
-                this.frame = 0;
-            }
-            update() {
-                this.x = (this.x - this.speed) % this.width;
-            }
-            draw() {
-                ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-            }
-            
+    // Set dimensions for the background canvas
+    canvas.width = WIDTH / ADJUST;
+    canvas.height = HEIGHT / ADJUST;
+
+    // Set Style properties for the background canvas
+    canvas.style.width = `${canvasWidth}px`;
+    canvas.style.height = `${canvasHeight}px`;
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${canvasLeft}px`;
+    canvas.style.top = `${canvasTop}px`;
+    
+    // Game speed is a common game variable
+    var gameSpeed = 2;
+    
+    // Layer is set up to support Parallax, multiple layers
+    class Layer {
+        constructor(image, speedRatio) {
+            this.x = 0;
+            this.y = 0;
+            this.width = WIDTH;
+            this.height = HEIGHT;
+            this.image = image;
+            this.speedRatio = speedRatio;
+            this.speed = gameSpeed * this.speedRatio;
+            this.frame = 0;
         }
+        update() {
+            this.x = (this.x - this.speed) % this.width;
+        }
+        draw() {
+            ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        }
+            
+    }
         
     
-        // Background object
-        var backgroundObj = new Layer(backgroundImg, 0.2);
+    // Background object
+    var backgroundObj = new Layer(backgroundImg, 0.2);
     
-        // Animation loop
-        function animation() {
-            backgroundObj.draw();
+    // Animation loop
+    function animation() {
+        backgroundObj.draw();
     
-            requestAnimationFrame(animation);  // cycle animation, recursion
-        }
-    
-        // Start animation process
-        animation();
-    
-        //Invert the colors
-        var isFilterEnabled = true;
-        const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
-        if (isFilterEnabled) {
-            canvas.style.filter = "none";  // remove filter
-        } else {
-            canvas.style.filter = defaultFilter; // Apply the default filter value
-        }
+        requestAnimationFrame(animation);  // cycle animation, recursion
     }
+    
+    // Start animation process
+    animation();
+    
+    //Invert the colors
+    var isFilterEnabled = true;
+    const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+    if (isFilterEnabled) {
+        canvas.style.filter = "none";  // remove filter
+    } else {
+        canvas.style.filter = defaultFilter; // Apply the default filter value
+    }
+}
+    
+let HEIGHT = backgroundImg.height;
 
+function placeholderAdjust() {
+    placeholder.style.height = HEIGHT + px;
+}
+    
+// Call the function initially and on window resize
+backgroundImg.addEventListener('load', function () {
+    placeholderAdjust();
+});
 
 document.getElementById('startButton').addEventListener('click', function() {
     var mainScreen = document.getElementById("mainScreen");

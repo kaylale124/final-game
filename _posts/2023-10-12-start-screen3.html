@@ -28,8 +28,6 @@ courses: { compsci: {week: 7} }
         left: 0;
     }
     #textBackground {
-        height: 600px;
-        width: 980px;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -200,6 +198,8 @@ backgroundImg.onload = function () {
 }
     
 let HEIGHT = backgroundImg.height;
+let WIDTH = backgroundImg.width;
+
 
 function placeholderAdjust() {
     placeholder.style.height = HEIGHT + px;
@@ -209,6 +209,9 @@ function placeholderAdjust() {
 backgroundImg.addEventListener('load', function () {
     placeholderAdjust();
 });
+
+backgroundHeight = HEIGHT * (673/600)
+backgroundWidth = WIDTH * (673/600)
 
 document.getElementById('startButton').addEventListener('click', function() {
     var mainScreen = document.getElementById("mainScreen");

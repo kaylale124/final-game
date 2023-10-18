@@ -11,7 +11,7 @@ courses: { compsci: {week: 7} }
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Invaders</title>
+    <title>Armeneggon</title>
     <style>
         body {
             margin: 0;
@@ -38,7 +38,7 @@ courses: { compsci: {week: 7} }
             width: 30,
             height: 30,
             color: '#FFFDE3',
-            speed: 5
+            speed: 20
         };
 
         document.addEventListener('keydown', keyDownHandler);
@@ -63,7 +63,7 @@ courses: { compsci: {week: 7} }
                 x: player.x,
                 y: player.y - 10,
                 radius: 3,
-                speed: 5,
+                speed: 20,
                 color: 'yellow'
             };
             projectiles.push(projectile);
@@ -108,3 +108,14 @@ courses: { compsci: {week: 7} }
     </script>
 </body>
 </html>
+
+// Kayla's image code
+const image = new Image();
+image.src = '{{ spriteFile }}';
+
+// Method to draw the player on the canvas using the chicken image
+        draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            ctx.drawImage(image, this.position.x, this.position.y, this.width, this.height);
+        }
+    }

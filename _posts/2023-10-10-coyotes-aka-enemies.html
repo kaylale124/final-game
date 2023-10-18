@@ -27,7 +27,7 @@ courses: { compsci: {week: 7} }
 <head>
 </head>
 <body>
-<div>
+<div id="canvas-container">
 <canvas id="spriteContainer">
 <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
 <img id="coyoteSprite" src="{{spriteFile}}"> <!-- change sprite here -->
@@ -37,108 +37,117 @@ courses: { compsci: {week: 7} }
 
 
 
-
-
-
-
-
 <script>
-// Prepare Enemy Image
-const coyoteSprite = new Image();
-coyoteSprite.src = '{{spriteFile}}';
-/* Start on page load */
-window.addEventListener('load', function () {
-const canvas = document.getElementById('spriteContainer');
-const ctx = canvas.getContext('2d');
-const SPRITE_WIDTH = 85; // Matches sprite pixel width
-const SPRITE_HEIGHT = 165; // Matches sprite pixel height
-const FRAME_LIMIT = 4; // Matches the number of frames per sprite row; this code assumes each row is the same
-const SCALE_FACTOR = 1; // Control size of sprite on canvas
-// Number of rows and columns in the grid
-const ROWS = 5;
-const COLUMNS = 10;
-canvas.width = SPRITE_WIDTH * COLUMNS * SCALE_FACTOR*3;
-canvas.height = SPRITE_HEIGHT * ROWS * SCALE_FACTOR*3;
-class Coyote {
-constructor(x, y) {
-this.image = coyoteSprite;
-this.x = x;
-this.y = y;
-this.minFrame = 0;
-this.maxFrame = FRAME_LIMIT;
-this.frameX = 0;
-this.frameY = 0;
-}
-/* Draw coyote object */
-draw(context) {
-context.drawImage(
-this.image,
-this.frameX * SPRITE_WIDTH,
-this.frameY * SPRITE_HEIGHT,
-SPRITE_WIDTH,
-SPRITE_HEIGHT,
-this.x,
-this.y,
-SPRITE_WIDTH * SCALE_FACTOR, // Adjusted for scale
-SPRITE_HEIGHT * SCALE_FACTOR // Adjusted for scale
-);
-}
-/* Update frameX of object */
-update() {
-if (this.frameX < this.maxFrame) {
-this.frameX++;
-} else {
-this.frameX = 0;
-}
-}
-}
-const frameRate = 5; // Adjust the frame rate to your desired value (frames per second)
-const frameInterval = 1000 / frameRate; // Time in milliseconds between frames
-let lastFrameTime = 0;
-// Create a 2D array to manage the grid of coyotes
-const coyotes = [];
-for (let row = 0; row < ROWS; row++) {
-coyotes[row] = [];
-for (let col = 0; col < COLUMNS; col++) {
-coyotes[row][col] = new Coyote(col * SPRITE_WIDTH * SCALE_FACTOR, row * SPRITE_HEIGHT * SCALE_FACTOR);
-}
-}
-let gridY = 0; // Initial position of the grid
-const screenHeight = window.innerHeight; // Get the screen height
-function animate(currentTime) {
-// Calculate the time elapsed since the last frame
-const deltaTime = currentTime - lastFrameTime;
-// Check if enough time has passed to update the frame
-if (deltaTime >= frameInterval) {
-// Clears the canvas to remove the previous frame
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-// Move the entire grid downwards based on screen position
-gridY += 2; // Adjust the speed as needed
-// Ensure the grid stays within the screen height
-if (gridY > screenHeight) {
-gridY = 0;
-}
-// Draw all coyotes in the grid and update their positions based on the gridY
-for (let row = 0; row < ROWS; row++) {
-for (let col = 0; col < COLUMNS; col++) {
-coyotes[row][col].draw(ctx);
-coyotes[row][col].y = coyotes[row][col].y + gridY; // Update y position based on gridY
-coyotes[row][col].update();
-}
-}
-lastFrameTime = currentTime; // Update the last frame time
-// Use `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate
-requestAnimationFrame(animate);
-} else {
-// If not enough time has passed, call `requestAnimationFrame` again
-requestAnimationFrame(animate);
-}
-}
-/* Run the first animate */
-animate();
-});
-</script>
-</html>
-
-
-
+    // Prepare Enemy Image
+    const coyoteSprite = new Image();
+    coyoteSprite.src = '{{spriteFile}}';
+  
+    /* Start on page load */
+    window.addEventListener('load', function () {
+      const canvasContainer = document.getElementById('canvas-container');
+      const canvas = document.getElementById('spriteContainer');
+      const ctx = canvas.getContext('2d');
+  
+      const SPRITE_WIDTH = 85; // Matches sprite pixel width
+      const SPRITE_HEIGHT = 165; // Matches sprite pixel height
+      const FRAME_LIMIT = 4; // Matches the number of frames per sprite row; this code assumes each row is the same
+      const SCALE_FACTOR = 0.5; // Reduced scale to make coyotes smaller
+  
+      // Adjust the canvas width and height
+      canvas.width = SPRITE_WIDTH * 8 * SCALE_FACTOR; // Width remains the same
+      canvas.height = SPRITE_HEIGHT * 5 * SCALE_FACTOR; // Height increased by a factor of 10
+  
+      class Coyote {
+        constructor(x, y) {
+          this.image = coyoteSprite;
+          this.x = x;
+          this.y = y;
+          this.minFrame = 0;
+          this.maxFrame = FRAME_LIMIT;
+          this.frameX = 0;
+          this.frameY = 0;
+        }
+  
+        /* Draw coyote object */
+        draw(context) {
+          context.drawImage(
+            this.image,
+            this.frameX * SPRITE_WIDTH,
+            this.frameY * SPRITE_HEIGHT,
+            SPRITE_WIDTH,
+            SPRITE_HEIGHT,
+            this.x,
+            this.y,
+            SPRITE_WIDTH * SCALE_FACTOR,
+            SPRITE_HEIGHT * SCALE_FACTOR
+          );
+        }
+  
+        /* Update frameX of object */
+        update() {
+          if (this.frameX < this.maxFrame) {
+            this.frameX++;
+          } else {
+            this.frameX = 0;
+          }
+        }
+      }
+  
+      const frameRate = 5; // Adjust the frame rate to your desired value (frames per second)
+      const frameInterval = 1000 / frameRate; // Time in milliseconds between frames
+      let lastFrameTime = 0;
+  
+      // Create an array to manage individual coyote objects
+      const coyotes = [];
+  
+      // Create an upside-down pyramid layout with varying rows (5, 4, 3, 2, 1)
+      const numRows = [5, 4, 3, 2, 1];
+      let rowCounter = 0;
+      numRows.forEach((rowCount) => {
+        for (let row = 0; row < rowCount; row++) {
+          const colsInThisRow = rowCount - row;
+          for (let col = 0; col < colsInThisRow; col++) {
+            const x = col * SPRITE_WIDTH * SCALE_FACTOR + (row * SPRITE_WIDTH * SCALE_FACTOR) / 2;
+            const y = rowCounter * SPRITE_HEIGHT * SCALE_FACTOR;
+            coyotes.push(new Coyote(x, y));
+          }
+          rowCounter++;
+        }
+      });
+  
+      let canvasY = 0; // Initial position of the canvas
+  
+      function animate(currentTime) {
+        // Calculate the time elapsed since the last frame
+        const deltaTime = currentTime - lastFrameTime;
+  
+        // Check if enough time has passed to update the frame
+        if (deltaTime >= frameInterval) {
+          // Clears the canvas to remove the previous frame
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+          // Move the entire canvas (not individual coyotes) downwards
+          canvasY += 10; // Adjust the speed as needed
+          canvas.style.transform = `translateY(${canvasY}px)`;
+  
+          // Draw all coyotes in the grid and update their positions based on the canvasY
+          coyotes.forEach((coyote) => {
+            coyote.draw(ctx);
+            coyote.update();
+          });
+  
+          lastFrameTime = currentTime; // Update the last frame time
+  
+          // Use `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate
+          requestAnimationFrame(animate);
+        } else {
+          // If not enough time has passed, call `requestAnimationFrame` again
+          requestAnimationFrame(animate);
+        }
+      }
+  
+      /* Run the first animate */
+      animate();
+    });
+  </script>
+  </html>

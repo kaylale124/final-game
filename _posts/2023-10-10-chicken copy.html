@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Chicken/Player Sprite
+title: Chicken/Player Sprite 2
 image: /images/background.jpg
 sprite: /images/whitechicken.png
 type: hacks
@@ -12,20 +12,17 @@ courses: { compsci: {week: 7} }
 
 {% assign spriteFile = site.baseurl | append: page.sprite %}
 
+<!-- Jekyll Liquid Code-->
+{% assign backgroundFile = site.baseurl | append: page.image %}
+
+{% assign spriteFile = site.baseurl | append: page.sprite %}
+
 <style>
-    #placeholder {
-        width: 100%;
-    }
-    canvas {
-        position: absolute;
-        top: 60px;
-        bottom: 205px;
-        left: 0;
-        width: 100%;
+    #canvas {
+        margin: 0;
+        border: 1px solid white;
     }
 </style>
-<div id="placeholder"></div>
-
 <canvas id='canvas'></canvas>
 <div id="canvasContainer">
     <div id="controls"> <!-- Controls -->
@@ -33,16 +30,15 @@ courses: { compsci: {week: 7} }
     </div>
 </div>
 <script>
-
-// Prepare Canvas
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext('2d');
+    // Create empty canvas
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    // Set the canvas dimensions
+    canvas.width = 650;
+    canvas.height = 400;
 
     const image = new Image();
     image.src = '{{ spriteFile }}';
-
-    canvas.width = 600;
-    canvas.height = 450;
 
     // Define the Player class
     class Player {
@@ -62,6 +58,8 @@ courses: { compsci: {week: 7} }
         }
         // Method to draw the player on the canvas using the chicken image
         draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            ctx.drawImage(image, this.position.x, this.position.y, this.width, this.height);
 
             ctx.save();
             ctx.translate(
@@ -74,13 +72,7 @@ courses: { compsci: {week: 7} }
             ctx.translate(
                 -player.position.x - player.width /2,
                 -player.position.y - player.height /2
-
             )
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-            ctx.drawImage(image, this.position.x, this.position.y, this.width, this.height);
-
-            ctx.restore();
         }
     }
 
@@ -111,14 +103,17 @@ courses: { compsci: {week: 7} }
         // Update player position based on key states
         if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
             player.position.x += player.speed;
-            player.rotation = 0.15;
-        }
-        else if (keys.left.pressed && player.position.x >= player.speed) {
+        } 
+        if (keys.left.pressed && player.position.x >= player.speed) {
             player.position.x -= player.speed;
-            player.rotation = -0.15;
-        } else {
-            player.rotation = 0;
-        };
+        }
+        if (keys.down.pressed && player.position.y + player.height <= canvas.height - player.speed) {
+            player.position.y += player.speed;
+        }
+
+        if (keys.up.pressed && player.position.y >= player.speed) {
+            player.position.y -= player.speed;
+        }
     }
 
     animate();
@@ -173,13 +168,3 @@ courses: { compsci: {week: 7} }
     document.getElementById("toggleCanvasEffect").addEventListener("click", toggleCanvasEffect);
 
 </script>
-
-<div id="canvasContainer">
-    <canvas id="backgroundID">
-        <img id="backgroundImage" src="{{backgroundFile}}">
-    </canvas>
-</div>
-
-
-<div id="placeholder"></div>
-

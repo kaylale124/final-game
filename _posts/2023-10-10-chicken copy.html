@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Chicken/Player Sprite Two
-image: /images/background.jpg
+image: /images/background2.jpg
 sprite: /images/whitechicken.png
 type: hacks
 courses: { compsci: {week: 7} }
@@ -18,19 +18,108 @@ courses: { compsci: {week: 7} }
         border: 1px solid white;
     }
 </style>
-<canvas id='canvas'></canvas>
 <div id="canvasContainer">
+    <canvas id="backgroundID">
+        <img id="backgroundImage" src="{{backgroundFile}}">
+    </canvas>
+</div>
     <div id="controls"> <!-- Controls -->
         <button id="toggleCanvasEffect">Invert</button>
     </div>
 </div>
+<div id="placeholder"></div>
 <script>
-    // Create empty canvas
-    let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    // Set the canvas dimensions
-    canvas.width = 650;
-    canvas.height = 400;
+// Prepare Background Image
+const backgroundImg = new Image();
+    backgroundImg.src = '{{backgroundFile}}';
+    // Prepare Canvas
+    const canvas = document.getElementById("backgroundID");
+    const ctx = canvas.getContext('2d');
+    // Prepare Window extents related to the viewport
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
+
+    // Account for the header height
+    const headerHeight = document.querySelector('header').offsetHeight;
+
+    // Calculate the top position
+    const topPosition = headerHeight + ((maxHeight - headerHeight) / 2);
+
+    // Prepare placeholder element
+    const placeholder = document.getElementById('placeholder');
+    backgroundImg.onload = function () {
+        // Setup background constants from the background image
+        const WIDTH = backgroundImg.width; // Image() width (metadata)
+        const HEIGHT = backgroundImg.height; // Image() height
+        const ASPECT_RATIO = WIDTH / HEIGHT;
+        const ADJUST = 1.42; // Visual layer adjust, use "1" for a perfect loop
+        // Set dimensions to match the image width
+        const canvasWidth = maxWidth;
+        const canvasHeight = canvasWidth / ASPECT_RATIO; // Height is oriented by width
+        const canvasLeft = 0;
+        const canvasTop = 60;
+
+        // Set dimensions for the background canvas
+        canvas.width = WIDTH / ADJUST;
+        canvas.height = HEIGHT / ADJUST;
+
+        // Set style properties for the background canvas
+        canvas.style.width = `${canvasWidth}px`;
+        canvas.style.height = `${canvasHeight}px`;
+        canvas.style.position = 'absolute';
+        canvas.style.left = `${canvasLeft}px`;
+        canvas.style.top = `${canvasTop}px`;
+
+        // Game speed is a common game variable
+        var gameSpeed = 2;
+        // Layer is set up to support Parallax, multiple layers
+        class Layer {
+            constructor(image, speedRatio) {
+                this.x = 0;
+                this.y = 0;
+                this.width = WIDTH;
+                this.height = HEIGHT;
+                this.image = image;
+                this.speedRatio = speedRatio;
+                this.speed = gameSpeed * this.speedRatio;
+                this.frame = 0;
+            }
+            update() {
+                this.x = (this.x - this.speed) % this.width;
+            }
+            draw() {
+                ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+            }
+        }
+        // Background object
+        var backgroundObj = new Layer(backgroundImg, 0.2);
+        // Animation loop
+        function animation() {
+            backgroundObj.draw();
+            requestAnimationFrame(animation); // Cycle animation, recursion
+        }
+        // Start animation process
+        animation();
+        // Invert the colors
+        var isFilterEnabled = true;
+        const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+        if (isFilterEnabled) {
+            canvas.style.filter = "none"; // Remove filter
+        } else {
+            canvas.style.filter = defaultFilter; // Apply the default filter value
+        }
+    }
+
+    let HEIGHT = backgroundImg.height;
+
+    function placeholderAdjust() {
+        placeholder.style.height = HEIGHT + 'px';
+    }
+
+    // Call the function initially and on window resize
+    backgroundImg.addEventListener('load', function () {
+    placeholderAdjust();
+});
 
     const image = new Image();
     image.src = '{{ spriteFile }}';
@@ -98,7 +187,7 @@ courses: { compsci: {week: 7} }
     // Animation function to continuously update and render the canvas
     function animate() {
         requestAnimationFrame(animate);
-        player.draw();
+        backgroundObj.draw();
 
         // Update player position based on key states
         if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
@@ -111,6 +200,8 @@ courses: { compsci: {week: 7} }
         } else {
             player.rotation = 0;
         };
+
+        player.draw();
     }
 
     animate();

@@ -1,0 +1,200 @@
+---
+layout: base
+title: Start Screen
+image: /images/bkgbox.png
+type: hacks
+courses: { compsci: {week: 7} }
+---
+
+<!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
+{% assign backgroundFile = site.baseurl | append: page.image %}
+{% assign spriteFile = site.baseurl | append: page.sprite %}
+
+<style>
+    #placeholder {
+        height: 605px;
+    }
+    canvas {
+        position: absolute;
+        top: 60px;
+        bottom: 205px;
+        left: 0;
+        width: 100%;
+    }
+    #backgroundImage {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    /*
+    #textBackground {
+        height: 600px;
+        width: 980px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 5px; /* Rounded corners for the background
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency 
+    }
+    */
+    #mainScreen {
+        position: absolute;
+        top: 50%; /* Vertically centered */
+        left: 50%; /* Horizontally centered */
+        transform: translate(-50%, -50%); /* Center the text */
+        text-align: center; /* Center the text horizontally */
+        color: rgb(0, 0, 0);
+        z-index: 2; /* places element on top of other elements (bring to front) */
+    }
+    #mainScreen h1 {
+        font-size: 100px;
+    }
+    #mainScreen p {
+        font-size: 50px;
+    }
+    #mainScreen h3 {
+        font-size: 25px;
+    }
+    #mainScreen button {
+        font-size: 25px;
+    }
+    #startScreen {
+        text-align: left;
+        position: absolute;
+        top: 80px;
+        left: 270px;
+        color: rgb(0, 0, 0);
+    }
+    #startScreen h1 {
+        font-size: 50px;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+
+<!-- Prepare DOM elements -->
+<div id="canvasContainer">
+    <canvas id="backgroundID">
+        <img id="backgroundImage" src="{{backgroundFile}}">
+    </canvas>
+</div>
+
+<!-- 
+<div id="textBackground">
+</div>
+-->
+
+<!-- loading screen-->
+<div id="mainScreen">
+    <h1>The Armeneggon</h1>
+    <p><em>A Space Invaders Game</em></p>
+    <div id="start">
+        <button id="startButton">Start</button>
+    </div>
+</div>
+
+<div id="placeholder"></div>
+
+<!-- start screen-->
+<div id="startScreen" class="hidden">
+        <h1>Choose your character</h1>
+</div>
+
+<script>
+    // Prepare Background Image
+    const backgroundImg = new Image();
+    backgroundImg.src = '{{backgroundFile}}';  // Jekyll/Liquid puts filename here
+    
+    
+    // Prepare Canvas
+    const canvas = document.getElementById("backgroundID");
+    const ctx = canvas.getContext('2d');
+    
+    
+    // Prepare Window extents related to viewport
+    const maxWidth = window.innerWidth - 15;
+    const maxHeight = window.innerHeight - 265;
+    
+    backgroundImg.onload = function () {
+        // Setup background constants from background image
+        const WIDTH = backgroundImg.width;  // Image() width (meta data)
+        const HEIGHT = backgroundImg.height; // Image() height
+        const ASPECT_RATIO = WIDTH / HEIGHT;
+        const ADJUST = 1.42 // visual layer adjust, use "1"" for a perfect loop 
+    
+        // Set Dimensions to match the image width
+        const canvasWidth = maxWidth;
+        const canvasHeight = canvasWidth / ASPECT_RATIO;  // height is oriented by width
+        const canvasLeft = 0;
+        const canvasTop = 60;
+    
+        // Set Style properties for the background canvas
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;    
+        canvas.style.width = `${canvasWidth}px`;
+        canvas.style.height = `${canvasHeight}px`;
+        canvas.style.position = 'absolute';
+        canvas.style.left = `${canvasLeft}px`;
+        canvas.style.top = `${canvasTop}px`;
+    
+        // Game speed is a common game variable
+        var gameSpeed = 2;
+    
+        // Layer is set up to support Parallax, multiple layers
+        class Layer {
+            constructor(image, speedRatio) {
+                this.x = 0;
+                this.y = 0;
+                this.width = WIDTH;
+                this.height = HEIGHT;
+                this.image = image;
+                this.speedRatio = speedRatio;
+                this.speed = gameSpeed * this.speedRatio;
+                this.frame = 0;
+            }
+            update() {
+                this.x = (this.x - this.speed) % this.width;
+            }
+            draw() {
+                ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+            }
+            
+        }
+        
+    
+        // Background object
+        var backgroundObj = new Layer(backgroundImg, 0.2);
+    
+        // Animation loop
+        function animation() {
+            backgroundObj.draw();
+    
+            requestAnimationFrame(animation);  // cycle animation, recursion
+        }
+    
+        // Start animation process
+        animation();
+    
+        //Invert the colors
+        var isFilterEnabled = true;
+        const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+        if (isFilterEnabled) {
+            canvas.style.filter = "none";  // remove filter
+        } else {
+            canvas.style.filter = defaultFilter; // Apply the default filter value
+        }
+    }
+
+
+document.getElementById('startButton').addEventListener('click', function() {
+    var mainScreen = document.getElementById("mainScreen");
+    mainScreen.remove();
+    var startScreen = document.getElementById('startScreen');
+    startScreen.classList.remove('hidden');
+});
+
+</script>

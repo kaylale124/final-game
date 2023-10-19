@@ -1,0 +1,264 @@
+---
+layout: base
+title: Game Screen
+image: /images/background2.jpg
+sprite: /images/wolf-animation2.png
+type: hacks
+courses: { compsci: {week: 7} }
+---
+
+<!-- Liquid code, run by Jekyll, used to define the location of assets -->
+{% assign backgroundFile = site.baseurl | append: page.image %}
+{% assign spriteFile = site.baseurl | append: page.sprite %}
+
+<!-- Prepare DOM elements -->
+<div id="canvasContainer">
+    <canvas id="backgroundID">
+        <img id="backgroundImage" src="{{backgroundFile}}">
+    </canvas>
+</div>
+<div id="placeholder"></div>
+
+<script>
+    // Prepare Background Image
+    const backgroundImg = new Image();
+    backgroundImg.src = '{{backgroundFile}}';
+    // Prepare Canvas
+    const canvas = document.getElementById("backgroundID");
+    const ctx = canvas.getContext('2d');
+    // Prepare Window extents related to the viewport
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
+
+    // Account for the header height
+    const headerHeight = document.querySelector('header').offsetHeight;
+
+    // Calculate the top position
+    const topPosition = headerHeight + ((maxHeight - headerHeight) / 2);
+
+    // Prepare placeholder element
+    const placeholder = document.getElementById('placeholder');
+    backgroundImg.onload = function () {
+        // Setup background constants from the background image
+        const WIDTH = backgroundImg.width; // Image() width (metadata)
+        const HEIGHT = backgroundImg.height; // Image() height
+        const ASPECT_RATIO = WIDTH / HEIGHT;
+        const ADJUST = 1.42; // Visual layer adjust, use "1" for a perfect loop
+        // Set dimensions to match the image width
+        const canvasWidth = maxWidth;
+        const canvasHeight = canvasWidth / ASPECT_RATIO; // Height is oriented by width
+        const canvasLeft = 0;
+        const canvasTop = 60;
+
+        // Set dimensions for the background canvas
+        canvas.width = WIDTH / ADJUST;
+        canvas.height = HEIGHT / ADJUST;
+
+        // Set style properties for the background canvas
+        canvas.style.width = `${canvasWidth}px`;
+        canvas.style.height = `${canvasHeight}px`;
+        canvas.style.position = 'absolute';
+        canvas.style.left = `${canvasLeft}px`;
+        canvas.style.top = `${canvasTop}px`;
+
+        // Game speed is a common game variable
+        var gameSpeed = 2;
+        // Layer is set up to support Parallax, multiple layers
+        class Layer {
+            constructor(image, speedRatio) {
+                this.x = 0;
+                this.y = 0;
+                this.width = WIDTH;
+                this.height = HEIGHT;
+                this.image = image;
+                this.speedRatio = speedRatio;
+                this.speed = gameSpeed * this.speedRatio;
+                this.frame = 0;
+            }
+            update() {
+                this.x = (this.x - this.speed) % this.width;
+            }
+            draw() {
+                ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+            }
+        }
+        // Background object
+        var backgroundObj = new Layer(backgroundImg, 0.2);
+        // Animation loop
+        function animation() {
+            backgroundObj.draw();
+            requestAnimationFrame(animation); // Cycle animation, recursion
+        }
+        // Start animation process
+        animation();
+        // Invert the colors
+        var isFilterEnabled = true;
+        const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+        if (isFilterEnabled) {
+            canvas.style.filter = "none"; // Remove filter
+        } else {
+            canvas.style.filter = defaultFilter; // Apply the default filter value
+        }
+    }
+
+    let HEIGHT = backgroundImg.height;
+
+    function placeholderAdjust() {
+        placeholder.style.height = HEIGHT + 'px';
+    }
+
+    // Call the function initially and on window resize
+    backgroundImg.addEventListener('load', function () {
+        placeholderAdjust();
+        
+        // Load the coyote sprites and start scoring after they have been loaded
+        coyoteSprite.onload = function () {
+            startScoring();
+        };
+        coyoteSprite.src = '{{spriteFile}}';
+    });
+</script>
+
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+    <div id="score-container" style="position: absolute; top: 10px; left: 10px; z-index: 9999;">
+        <div id="score" style="font-size: 18px; color: white;">
+            Score: 0
+        </div>
+    </div>
+    <div id="canvas-container" style="display: flex; justify-content: center; align-items: center; position: relative; top: -45vh;">
+        <canvas id="spriteContainer">
+            <img id="coyoteSprite" src="{{ spriteFile }}"> <!-- Change sprite here -->
+        </canvas>
+    </div>
+</body>
+
+<script>
+    // Initialize the score
+    let score = 0;
+
+    // Function to update the score display
+    function updateScore() {
+        const scoreElement = document.getElementById('score');
+        scoreElement.textContent = `Score: ${score}`;
+    }
+
+    // Function to start scoring after coyote sprites are loaded
+    function startScoring() {
+        const canvasContainer = document.getElementById('canvas-container');
+        const canvas = document.getElementById('spriteContainer');
+        const ctx = canvas.getContext('2d');
+        const SPRITE_WIDTH = 85; // Matches sprite pixel width
+        const SPRITE_HEIGHT = 165; // Matches sprite pixel height
+        const FRAME_LIMIT = 4; // Matches the number of frames per sprite row; this code assumes each row is the same
+        const SCALE_FACTOR = 0.5; // Reduced scale to make coyotes smaller
+
+        // Adjust the canvas width and height
+        canvas.width = SPRITE_WIDTH * 8 * SCALE_FACTOR; // Width remains the same
+        canvas.height = SPRITE_HEIGHT * 5 * SCALE_FACTOR; // Height increased by a factor of 10
+
+        // Calculate the Y-coordinate of the bottom border of the background image
+        const backgroundBottomY = canvas.height - (HEIGHT - canvas.height / 1.42);
+
+        class Coyote {
+            constructor(x, y) {
+                this.image = coyoteSprite;
+                this.x = x;
+                this.y = y;
+                this.minFrame = 0;
+                this.maxFrame = FRAME_LIMIT;
+                this.frameX = 0;
+                this.frameY = 0;
+            }
+            /* Draw coyote object */
+            draw(context) {
+                context.drawImage(
+                    this.image,
+                    this.frameX * SPRITE_WIDTH,
+                    this.frameY * SPRITE_HEIGHT,
+                    SPRITE_WIDTH,
+                    SPRITE_HEIGHT,
+                    this.x,
+                    this.y,
+                    SPRITE_WIDTH * SCALE_FACTOR,
+                    SPRITE_HEIGHT * SCALE_FACTOR
+                );
+            }
+            /* Update frameX of object */
+            update() {
+                if (this.frameX < this.maxFrame) {
+                    this.frameX++;
+                } else {
+                    this.frameX = 0;
+                }
+            }
+        }
+
+        const frameRate = 5; // Adjust the frame rate to your desired value (frames per second)
+        const frameInterval = 1000 / frameRate; // Time in milliseconds between frames
+        let lastFrameTime = 0;
+
+        // Create an array to manage individual coyote objects
+        const coyotes = [];
+
+        // Create an upside-down pyramid layout with varying rows (5, 4, 3, 2, 1)
+        const numRows = [5, 4, 3, 2, 1];
+        let rowCounter = 0;
+
+        numRows.forEach((rowCount) => {
+            for (let row = 0; row < rowCount; row++) {
+                const colsInThisRow = rowCount - row;
+                for (let col = 0; col < colsInThisRow; col++) {
+                    const x = col * SPRITE_WIDTH * SCALE_FACTOR + (row * SPRITE_WIDTH * SCALE_FACTOR) / 2;
+                    const y = rowCounter * SPRITE_HEIGHT * SCALE_FACTOR;
+                    coyotes.push(new Coyote(x, y));
+                }
+                rowCounter++;
+            }
+        });
+
+        let canvasY = 0; // Initial position of the canvas
+
+        function animate(currentTime) {
+            // Calculate the time elapsed since the last frame
+            const deltaTime = currentTime - lastFrameTime;
+
+            // Check if enough time has passed to update the frame
+            if (deltaTime >= frameInterval) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvasY += 10; // Adjust the speed as needed
+                canvas.style.transform = `translateY(${canvasY}px)`;
+
+                coyotes.forEach((coyote, index) => {
+                    if (coyote.y + SPRITE_HEIGHT * SCALE_FACTOR >= backgroundBottomY) {
+                        // Subtract 1 point from the score
+                        score -= 1;
+                        // Remove the coyote from the array
+                        coyotes.splice(index, 1);
+                    }
+                });
+
+                coyotes.forEach((coyote) => {
+                    coyote.draw(ctx);
+                    coyote.update();
+                });
+
+                lastFrameTime = currentTime; // Update the last frame time
+
+                // Update the score display
+                updateScore();
+
+                requestAnimationFrame(animate);
+            } else {
+                requestAnimationFrame(animate);
+            }
+        }
+
+        /* Run the first animate */
+        animate();
+    }
+</script>
+</html>
+

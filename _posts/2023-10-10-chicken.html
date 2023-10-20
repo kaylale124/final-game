@@ -12,11 +12,19 @@ courses: { compsci: {week: 7} }
 {% assign spriteFile = site.baseurl | append: page.sprite %}
 
 <style>
-    #canvas {
-        margin: 0;
-        border: 1px solid white;
+    #placeholder {
+        width: 100%;
+    }
+    canvas {
+        position: absolute;
+        top: 60px;
+        bottom: 205px;
+        left: 0;
+        width: 100%;
     }
 </style>
+<div id="placeholder"></div>
+
 <canvas id='canvas'></canvas>
 <div id="canvasContainer">
     <div id="controls"> <!-- Controls -->
@@ -24,6 +32,7 @@ courses: { compsci: {week: 7} }
     </div>
 </div>
 <script>
+
     // Create empty canvas
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext('2d');
@@ -33,6 +42,9 @@ courses: { compsci: {week: 7} }
 
     const image = new Image();
     image.src = '{{ spriteFile }}';
+
+    canvas.width = 600;
+    canvas.height = 450;
 
     // Define the Player class
     class Player {

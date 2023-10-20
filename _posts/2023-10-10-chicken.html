@@ -25,18 +25,14 @@ courses: { compsci: {week: 7} }
 </div>
 <script>
     // Create empty canvas
-    const backgroundImg = new Image();
-    backgroundImg.src = '{{backgroundFile}}';  // Jekyll/Liquid puts filename here
-
-
-// Prepare Canvas
-    const canvas = document.getElementById("backgroundID");
-    const ctx = canvas.getContext('2d');
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    // Set the canvas dimensions
+    canvas.width = 650;
+    canvas.height = 400;
 
     const image = new Image();
     image.src = '{{ spriteFile }}';
-
-    
 
     // Define the Player class
     class Player {
@@ -68,7 +64,6 @@ courses: { compsci: {week: 7} }
             ctx.translate(
                 -player.position.x - player.width /2,
                 -player.position.y - player.height /2
-
             )
 
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
@@ -113,6 +108,7 @@ courses: { compsci: {week: 7} }
         } else {
             player.rotation = 0;
         };
+
     }
 
     animate();
@@ -168,12 +164,4 @@ courses: { compsci: {week: 7} }
 
 </script>
 
-<div id="canvasContainer">
-    <canvas id="backgroundID">
-        <img id="backgroundImage" src="{{backgroundFile}}">
-    </canvas>
-</div>
-
-
-<div id="placeholder"></div>
 

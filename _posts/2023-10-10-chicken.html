@@ -26,14 +26,18 @@ courses: { compsci: {week: 7} }
 </div>
 <script>
     // Create empty canvas
-    let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    // Set the canvas dimensions
-    canvas.width = 650;
-    canvas.height = 400;
+    const backgroundImg = new Image();
+    backgroundImg.src = '{{backgroundFile}}';  // Jekyll/Liquid puts filename here
+
+
+// Prepare Canvas
+    const canvas = document.getElementById("backgroundID");
+    const ctx = canvas.getContext('2d');
 
     const image = new Image();
     image.src = '{{ spriteFile }}';
+
+    
 
     // Define the Player class
     class Player {
@@ -164,3 +168,13 @@ courses: { compsci: {week: 7} }
     document.getElementById("toggleCanvasEffect").addEventListener("click", toggleCanvasEffect);
 
 </script>
+
+<div id="canvasContainer">
+    <canvas id="backgroundID">
+        <img id="backgroundImage" src="{{backgroundFile}}">
+    </canvas>
+</div>
+
+
+<div id="placeholder"></div>
+

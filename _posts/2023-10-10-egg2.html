@@ -1,7 +1,7 @@
 ---
 comments: false
 layout: default
-title: Egg Projectile
+title: Egg Projectile 2
 type: hacks
 courses: { compsci: {week: 7} }
 ---
@@ -11,7 +11,7 @@ courses: { compsci: {week: 7} }
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armeneggon</title>
+    <title>Armeneggon Sample</title>
     <style>
         body {
             margin: 0;
@@ -31,6 +31,14 @@ courses: { compsci: {week: 7} }
         const ctx = canvas.getContext('2d');
         let projectiles = [];
 
+        // Load projectile image
+        const projectileImage = new Image();
+        projectileImage.src = 'final-game/images/egg-projectile.png';
+
+        projectileImage.onload = function() {
+    ctx.drawImage(projectileImage, x, y);
+};
+
         // Player object
         const player = {
             x: canvas.width / 2,
@@ -38,7 +46,7 @@ courses: { compsci: {week: 7} }
             width: 30,
             height: 30,
             color: '#FFFDE3',
-            speed: 20
+            speed: 5
         };
 
         document.addEventListener('keydown', keyDownHandler);
@@ -50,7 +58,7 @@ courses: { compsci: {week: 7} }
             } else if (e.key === 'd' || e.key === 'D') {
                 player.x += player.speed;
             } else if (e.key === ' ' || e.code === 'Space') {
-                shootProjectile();
+                shootProjectile(player.x, player.y);
             }
         }
 
@@ -58,13 +66,12 @@ courses: { compsci: {week: 7} }
             // Handle any key release events if needed
         }
 
-        function shootProjectile() {
+        function shootProjectile(playerX, playerY) {
             const projectile = {
-                x: player.x,
-                y: player.y - 10,
-                radius: 3,
-                speed: 20,
-                color: 'yellow'
+                x: playerX,
+                y: playerY,
+                speed: 3,
+                image: projectileImage
             };
             projectiles.push(projectile);
         }
@@ -76,11 +83,7 @@ courses: { compsci: {week: 7} }
 
         function drawProjectiles() {
             projectiles.forEach(projectile => {
-                ctx.beginPath();
-                ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
-                ctx.fillStyle = projectile.color;
-                ctx.fill();
-                ctx.closePath();
+                ctx.drawImage(projectile.image, projectile.x, projectile.y);
             });
         }
 

@@ -155,7 +155,7 @@ courses: { compsci: {week: 7} }
 
 <!-- start screen-->
 <div id="startScreen" class="hidden">
-    <h1 id="startScreen h1">Choose your character</h1>
+    <h1 id="chooseText">Choose your character</h1>
     <div id="characterList">
         <div class="character" onclick="selectCharacter('Henry')">
             <img src="{{site.baseurl}}/images/whitechicken.png">
@@ -203,9 +203,6 @@ courses: { compsci: {week: 7} }
     
     // define textbackground
     var textBackground = document.getElementById("textBackground");
-
-    //start screen text
-    var startScreenText = document.getElementById('#startScreen h1');
 
     // Prepare Window extents related to viewport
     const maxWidth = window.innerWidth;
@@ -301,7 +298,6 @@ backgroundImg.onload = function () {
     const backgroundWidth = backgroundImage.width * backgroundRatio;
 
     //load
-    const textBackground = document.getElementById('textBackground');
     textBackground.style.width = (backgroundWidth) + 'px';
     textBackground.style.height = (backgroundHeight)+ 'px';
     textBackground.style.display = 'block';
@@ -354,7 +350,8 @@ function updateCharacterSelection() {
     });
 }
 
-var startGameRemove = ["mainScreen", "startScreen", "characterList", "textBackground", "startGameButton", "startScreenText"];
+var chooseText = document.getElementById("chooseText");
+var startGameRemove = ["mainScreen", "startScreen", "characterList", "textBackground", "startGameButton", "chooseText"];
 
 //start the game
 function startGame() {

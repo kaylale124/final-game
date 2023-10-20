@@ -273,19 +273,6 @@ backgroundImg.onload = function () {
         canvas.style.filter = defaultFilter; // Apply the default filter value
     }
 
-    //text bkg ratio
-    const backgroundRatio = 600/673
-
-    // variable for textbkg size
-    const backgroundHeight = backgroundImage.height * backgroundRatio;
-    const backgroundWidth = backgroundImage.width * backgroundRatio;
-
-    //load
-    const textBackground = document.getElementById('textBackground');
-    textBackground.style.width = (backgroundWidth) + 'px';
-    textBackground.style.height = (backgroundHeight)+ 'px';
-    textBackground.style.display = 'block';
-
     //load text
     document.getElementById('mainScreen').style.display = 'block';
 }

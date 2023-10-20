@@ -12,26 +12,19 @@ courses: { compsci: {week: 7} }
 
 {% assign spriteFile = site.baseurl | append: page.sprite %}
 
-<style>
-    #canvas {
-        margin: 0;
-        border: 1px solid white;
-    }
-</style>
 <div id="canvasContainer">
     <canvas id="backgroundID">
         <img id="backgroundImage" src="{{backgroundFile}}">
     </canvas>
 </div>
-    <div id="controls"> <!-- Controls -->
-        <button id="toggleCanvasEffect">Invert</button>
-    </div>
-</div>
+
 <div id="placeholder"></div>
+
 <script>
-// Prepare Background Image
 const backgroundImg = new Image();
-    backgroundImg.src = '{{backgroundFile}}';
+backgroundImg.src = '{{backgroundFile}}';
+const image = new Image();
+image.src = '{{spriteFile}}';
     // Prepare Canvas
     const canvas = document.getElementById("backgroundID");
     const ctx = canvas.getContext('2d');
@@ -117,12 +110,39 @@ const backgroundImg = new Image();
     }
 
     // Call the function initially and on window resize
-    backgroundImg.addEventListener('load', function () {
-    placeholderAdjust();
-});
+       // Call the function initially and on window resize
+       backgroundImg.addEventListener('load', function () {
+        placeholderAdjust();
 
-    const image = new Image();
-    image.src = '{{ spriteFile }}';
+        // Create a player object
+        const player = new Player();
+
+        // Animation function to continuously update and render the canvas
+        function animate() {
+            requestAnimationFrame(animate);
+            backgroundObj.update();
+            backgroundObj.draw();
+
+            // Update player position based on key states
+            if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
+                player.position.x += player.speed;
+                player.rotation = 0.15;
+            }
+            else if (keys.left.pressed && player.position.x >= player.speed) {
+                player.position.x -= player.speed;
+                player.rotation = -0.15;
+            } else {
+                player.rotation = 0;
+            }
+
+            player.draw(); // Draw the chicken sprite
+
+        }
+
+        animate();
+
+        // ... (rest of your code)
+    });
 
     // Define the Player class
     class Player {
@@ -154,7 +174,6 @@ const backgroundImg = new Image();
             ctx.translate(
                 -player.position.x - player.width /2,
                 -player.position.y - player.height /2
-
             )
 
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
@@ -163,7 +182,6 @@ const backgroundImg = new Image();
             ctx.restore();
         }
     }
-
 
     // Create a player object
     const player = new Player();
@@ -185,26 +203,6 @@ const backgroundImg = new Image();
     };
 
     // Animation function to continuously update and render the canvas
-    function animate() {
-        requestAnimationFrame(animate);
-        backgroundObj.draw();
-
-        // Update player position based on key states
-        if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
-            player.position.x += player.speed;
-            player.rotation = 0.15;
-        }
-        else if (keys.left.pressed && player.position.x >= player.speed) {
-            player.position.x -= player.speed;
-            player.rotation = -0.15;
-        } else {
-            player.rotation = 0;
-        };
-
-        player.draw();
-    }
-
-    animate();
 
     // Event listener for keydown events
     addEventListener('keydown', ({ keyCode }) => {
@@ -212,14 +210,8 @@ const backgroundImg = new Image();
             case 65:
                 keys.left.pressed = true;
                 break;
-            case 83:
-                keys.down.pressed = true;
-                break;
             case 68:
                 keys.right.pressed = true;
-                break;
-            case 87:
-                keys.up.pressed = true;
                 break;
         }
     });
@@ -230,29 +222,13 @@ const backgroundImg = new Image();
             case 65:
                 keys.left.pressed = false;
                 break;
-            case 83:
-                keys.down.pressed = false;
-                break;
             case 68:
                 keys.right.pressed = false;
-                break;
-            case 87:
-                keys.up.pressed = false;
                 break;
         }
     });
 
-    function toggleCanvasEffect() {
-        const canvasFilter = canvas.style.filter;
-        if (canvasFilter.includes("invert")) {
-            // If the filter already contains invert, remove it
-            canvas.style.filter = "none";
-        } else {
-            // Otherwise, add invert to the filter
-            canvas.style.filter = "invert(100%)";
-        }
-    };
-
-    document.getElementById("toggleCanvasEffect").addEventListener("click", toggleCanvasEffect);
 
 </script>
+
+

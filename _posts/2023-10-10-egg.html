@@ -1,0 +1,110 @@
+---
+comments: false
+layout: default
+title: Egg Projectile
+type: hacks
+courses: { compsci: {week: 7} }
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armeneggon</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+    <script>
+        // Get the canvas and its 2d context
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let projectiles = [];
+
+        // Player object
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height - 30,
+            width: 30,
+            height: 30,
+            color: '#FFFDE3',
+            speed: 20
+        };
+
+        document.addEventListener('keydown', keyDownHandler);
+        document.addEventListener('keyup', keyUpHandler);
+
+        function keyDownHandler(e) {
+            if (e.key === 'a' || e.key === 'A') {
+                player.x -= player.speed;
+            } else if (e.key === 'd' || e.key === 'D') {
+                player.x += player.speed;
+            } else if (e.key === ' ' || e.code === 'Space') {
+                shootProjectile();
+            }
+        }
+
+        function keyUpHandler(e) {
+            // Handle any key release events if needed
+        }
+
+        function shootProjectile() {
+            const projectile = {
+                x: player.x,
+                y: player.y - 10,
+                radius: 3,
+                speed: 20,
+                color: 'yellow'
+            };
+            projectiles.push(projectile);
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x - player.width / 2, player.y - player.height / 2, player.width, player.height);
+        }
+
+        function drawProjectiles() {
+            projectiles.forEach(projectile => {
+                ctx.beginPath();
+                ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
+                ctx.fillStyle = projectile.color;
+                ctx.fill();
+                ctx.closePath();
+            });
+        }
+
+        function updateProjectiles() {
+            projectiles.forEach(projectile => {
+                projectile.y -= projectile.speed;
+            });
+
+            // Remove projectiles that are off-screen
+            projectiles = projectiles.filter(projectile => projectile.y > 0);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawPlayer();
+            drawProjectiles();
+
+            updateProjectiles();
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+</body>
+</html>

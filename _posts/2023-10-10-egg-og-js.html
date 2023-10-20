@@ -1,7 +1,7 @@
 ---
 comments: false
 layout: default
-title: Egg Projectile 2
+title: Egg Projectile! (OG in js)
 type: hacks
 courses: { compsci: {week: 7} }
 ---
@@ -33,7 +33,7 @@ courses: { compsci: {week: 7} }
 
         // Load projectile image
         const projectileImage = new Image();
-        projectileImage.src = 'final-game/images/egg-projectile.png';
+        projectileImage.src = "{{site.baseurl}}/images/egg-projectile.png";
 
         projectileImage.onload = function() {
     ctx.drawImage(projectileImage, x, y);
@@ -46,7 +46,7 @@ courses: { compsci: {week: 7} }
             width: 30,
             height: 30,
             color: '#FFFDE3',
-            speed: 5
+            speed: 35
         };
 
         document.addEventListener('keydown', keyDownHandler);
@@ -68,7 +68,7 @@ courses: { compsci: {week: 7} }
 
         function shootProjectile(playerX, playerY) {
             const projectile = {
-                x: playerX,
+                x: playerX-25,
                 y: playerY,
                 speed: 3,
                 image: projectileImage

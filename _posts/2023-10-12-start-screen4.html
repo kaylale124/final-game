@@ -28,18 +28,6 @@ courses: { compsci: {week: 7} }
         left: 0;
         z-index: 0;
     }
-    #textBackground {
-        display: none;
-        width: var(--backgroundWidth);
-        height: var(--backgroundHeight);
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 5px; /* Rounded corners for the background */
-        position: absolute;
-        background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
-        z-index: 1;
-    }
     #mainScreen {
         display: none; /* will be displayed after image loads*/
         position: absolute;
@@ -82,6 +70,7 @@ courses: { compsci: {week: 7} }
     #startScreen h1 {
         font-size: 50px;
         text-align: center;
+        color:rgb(255, 255, 255);
     }
     .hidden {
         display: none;
@@ -138,9 +127,6 @@ courses: { compsci: {week: 7} }
     </canvas>
 </div>
 
-<div id="textBackground">
-</div>
-
 <!-- loading screen-->
 <div id="mainScreen">
     <h1>The Armeneggon</h1>
@@ -155,7 +141,7 @@ courses: { compsci: {week: 7} }
 
 <!-- start screen-->
 <div id="startScreen" class="hidden">
-    <h1 id="startScreen h1">Choose your character</h1>
+    <h1 id="chooseText">Choose your character</h1>
     <div id="characterList">
         <div class="character" onclick="selectCharacter('Henry')">
             <img src="{{site.baseurl}}/images/whitechicken.png">
@@ -200,12 +186,6 @@ courses: { compsci: {week: 7} }
     // Prepare Canvas
     const canvas = document.getElementById("backgroundID");
     const ctx = canvas.getContext('2d');
-    
-    // define textbackground
-    var textBackground = document.getElementById("textBackground");
-
-    //start screen text
-    var startScreenText = document.getElementById('#startScreen h1');
 
     // Prepare Window extents related to viewport
     const maxWidth = window.innerWidth;
@@ -293,19 +273,6 @@ backgroundImg.onload = function () {
         canvas.style.filter = defaultFilter; // Apply the default filter value
     }
 
-    //text bkg ratio
-    const backgroundRatio = 600/673
-
-    // variable for textbkg size
-    const backgroundHeight = backgroundImage.height * backgroundRatio;
-    const backgroundWidth = backgroundImage.width * backgroundRatio;
-
-    //load
-    const textBackground = document.getElementById('textBackground');
-    textBackground.style.width = (backgroundWidth) + 'px';
-    textBackground.style.height = (backgroundHeight)+ 'px';
-    textBackground.style.display = 'block';
-
     //load text
     document.getElementById('mainScreen').style.display = 'block';
 }
@@ -354,7 +321,8 @@ function updateCharacterSelection() {
     });
 }
 
-var startGameRemove = ["mainScreen", "startScreen", "characterList", "textBackground", "startGameButton", "startScreenText"];
+var chooseText = document.getElementById("chooseText");
+var startGameRemove = ["mainScreen", "startScreen", "characterList", "startGameButton", "chooseText"];
 
 //start the game
 function startGame() {

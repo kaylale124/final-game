@@ -10,21 +10,17 @@ courses: { compsci: {week: 7} }
 {% assign backgroundFile = site.baseurl | append: page.image %}
 
 {% assign spriteFile = site.baseurl | append: page.sprite %}
+<!-- Jekyll Liquid Code-->
+{% assign backgroundFile = site.baseurl | append: page.image %}
+
+{% assign spriteFile = site.baseurl | append: page.sprite %}
 
 <style>
-    #placeholder {
-        width: 100%;
-    }
-    canvas {
-        position: absolute;
-        top: 60px;
-        bottom: 205px;
-        left: 0;
-        width: 100%;
+    #canvas {
+        margin: 0;
+        border: 1px solid white;
     }
 </style>
-<div id="placeholder"></div>
-
 <canvas id='canvas'></canvas>
 <div id="canvasContainer">
     <div id="controls"> <!-- Controls -->
@@ -32,7 +28,6 @@ courses: { compsci: {week: 7} }
     </div>
 </div>
 <script>
-
     // Create empty canvas
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext('2d');
@@ -42,9 +37,6 @@ courses: { compsci: {week: 7} }
 
     const image = new Image();
     image.src = '{{ spriteFile }}';
-
-    canvas.width = 600;
-    canvas.height = 450;
 
     // Define the Player class
     class Player {
@@ -113,14 +105,13 @@ courses: { compsci: {week: 7} }
         if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
             player.position.x += player.speed;
             player.rotation = 0.15;
-        }
+        } 
         else if (keys.left.pressed && player.position.x >= player.speed) {
             player.position.x -= player.speed;
             player.rotation = -0.15;
         } else {
             player.rotation = 0;
-        };
-
+        }
     }
 
     animate();

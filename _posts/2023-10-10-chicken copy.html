@@ -11,7 +11,11 @@ courses: { compsci: {week: 7} }
 {% assign backgroundFile = site.baseurl | append: page.image %}
 
 {% assign spriteFile = site.baseurl | append: page.sprite %}
-
+<style>
+    #player {
+        z-index: 3;
+    }
+</style>
 <div id="canvasContainer">
     <canvas id="backgroundID">
         <img id="backgroundImage" src="{{backgroundFile}}">
@@ -120,7 +124,7 @@ image.src = '{{spriteFile}}';
         // Animation function to continuously update and render the canvas
         function animate() {
             requestAnimationFrame(animate);
-            backgroundObj.update();
+
             backgroundObj.draw();
 
             // Update player position based on key states

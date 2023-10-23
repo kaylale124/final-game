@@ -186,12 +186,6 @@ courses: { compsci: {week: 7} }
     // Prepare Canvas
     const canvas = document.getElementById("backgroundID");
     const ctx = canvas.getContext('2d');
-    
-    // define textbackground
-    var textBackground = document.getElementById("textBackground");
-
-    //start screen text
-    var startScreenText = document.getElementById('#startScreen h1');
 
     // Prepare Window extents related to viewport
     const maxWidth = window.innerWidth;
@@ -279,21 +273,6 @@ backgroundImg.onload = function () {
         canvas.style.filter = defaultFilter; // Apply the default filter value
     }
 
-<<<<<<< HEAD
-    //text bkg ratio
-    const backgroundRatio = 600/673
-
-    // variable for textbkg size
-    const backgroundHeight = backgroundImage.height * backgroundRatio;
-    const backgroundWidth = backgroundImage.width * backgroundRatio;
-
-    //load
-    textBackground.style.width = (backgroundWidth) + 'px';
-    textBackground.style.height = (backgroundHeight)+ 'px';
-    textBackground.style.display = 'block';
-
-=======
->>>>>>> d7ff3f66531c146cd67a71a6f33b2507c873f5fb
     //load text
     document.getElementById('mainScreen').style.display = 'block';
 }
@@ -342,7 +321,8 @@ function updateCharacterSelection() {
     });
 }
 
-var startGameRemove = ["mainScreen", "startScreen", "characterList", "textBackground", "startGameButton", "startScreenText"];
+var chooseText = document.getElementById("chooseText");
+var startGameRemove = ["mainScreen", "startScreen", "characterList", "startGameButton", "chooseText"];
 
 //start the game
 function startGame() {

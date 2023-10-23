@@ -43,18 +43,7 @@ courses: { compsci: {week: 7} }
     const ctx = canvas.getContext('2d');
     
     
-    // Prepare Window extents related to viewport
-    const maxWidth = window.innerWidth;
-    const maxHeight = window.innerHeight;
-
-    // Account for the header height
-    const headerHeight = document.querySelector('header').offsetHeight;
-
-    // Calculate the top position
-    const topPosition = headerHeight + ((maxHeight - headerHeight) / 2);
-
-    // Prepare placeholder element
-    const placeholder = document.getElementById('placeholder');
+   
     
 backgroundImg.onload = function () {
     // Setup background constants from background image

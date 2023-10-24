@@ -28,7 +28,7 @@ courses: { compsci: {week: 7} }
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
+        
         class Player {
             constructor() {
                 this.position = {
@@ -67,7 +67,17 @@ courses: { compsci: {week: 7} }
             }
         }
 
-        const player = new Player();
+        const defaultChickenImageSrc = "whitechicken.png"; // Default chicken image source
+       // have a space because that's what works ;-;
+        const player = new Player(defaultChickenImageSrc);
+
+        // Function to change the chicken image source
+        function changeChicken(imageSrc) {
+            player.image.src = imageSrc;
+        }
+
+        //keep no space so chicken shows up
+        constplayer = new Player();
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'a') {

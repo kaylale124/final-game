@@ -1,14 +1,12 @@
 ---
 comments: false
 layout: default
-image: /images/whitechicken.png
-title: Egg + Chicken Integrate
+image: /images/chickenlogo.ico
+title: Experimental Full Integration
 type: hacks
 courses: { compsci: {week: 7} }
 ---
 
-
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +19,39 @@ courses: { compsci: {week: 7} }
 </head>
 <body>
     <canvas></canvas>
+
+    <div id="startScreen" class="hidden">
+        <h1 id="chooseText">Choose your character</h1>
+        <div id="characterList">
+            <div class="character" onclick="selectCharacter('Henry')">
+                <img src="{{site.baseurl}}/images/whitechicken.png">
+                <p>Henry</p>
+            </div>
+            <div class="character" onclick="selectCharacter('Chiquita')">
+                <img src="{{site.baseurl}}/images/pinkchicken.png">
+                <p>Chiquita</p>
+            </div>
+            <div class="character" onclick="selectCharacter('Featherina')">
+                <img src="{{site.baseurl}}/images/purplechicken.png">
+                <p>Featherina</p>
+            </div>
+            <div class="character" onclick="selectCharacter('Chickpea')">
+                <img src="{{site.baseurl}}/images/greenchicken.png">
+                <p>Chickpea</p>
+            </div>
+            <div class="character" onclick="selectCharacter('Orange Chicken')">
+                <img src="{{site.baseurl}}/images/brownchicken.png">
+                <p>Orange Chicken</p>
+            </div>
+            <div class="character" onclick="selectCharacter('Cluck Norris')">
+                <img src="{{site.baseurl}}/images/blueyellowchicken.png">
+                <p>Cluck Norris</p>
+            </div>
+            <div class="character" onclick="selectCharacter('Eggward')">
+                <img src="{{site.baseurl}}/images/blackchicken.png">
+                <p>Eggward</p>
+            </div>
+        </div>  
 
     <script>
         const canvas = document.querySelector('canvas');
@@ -84,8 +115,7 @@ courses: { compsci: {week: 7} }
                 player.velocity.x = -player.speed;
             } else if (event.key === 'd') {
                 player.velocity.x = player.speed;
-                //case 87 = w key
-            } else if (event.key === ' ','w' && player.image) {
+            } else if (event.key === ' ', 'w' && player.image) {
                 // Shoot a projectile when space bar is pressed
                 const projectile = new Projectile(player.position.x, player.position.y, 5, "{{site.baseurl}}/images/egg-projectile.png");
                 projectiles.push(projectile);

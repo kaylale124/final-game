@@ -1,7 +1,9 @@
 import GameEnv from './GameEnv.js';
 
 class GameObject {
-    constructor(canvas, image) {
+    // container for all game objects in game
+    static gameObjectArray = [];
+    constructor(canvas, image, speedRatio) {
         this.x = 0;
         this.y = 0;
         this.frame = 0;
@@ -13,7 +15,13 @@ class GameObject {
         this.collisionWidth = 0;
         this.collisionHeight = 0;
         this.aspect_ratio = this.width / this.height;
+        this.speedRatio = speedRatio;
+        this.speed = GameEnv.gameSpeed * this.speedRatio;
+        this.invert = true;
         this.collisionData = {};
+        // Add this object to the game object array so collision can be detected
+        // among other things
+        GameObject.gameObjectArray.push(this); 
     }
 
     // X position getter and setter
@@ -32,6 +40,28 @@ class GameObject {
 
     setY(y) {
         this.y = y;
+    }
+
+    /* Default action is no action
+     * override when you extend for custom action
+    */
+    collisionAction(){
+        // no action
+    }
+
+    /* Collision checks
+     * uses GameObject isCollision to detect hit
+     * calls collisionAction on hit
+    */
+    collisionChecks() {
+        for (var gameObj of GameObject.gameObjectArray){
+            if (this != gameObj ) {
+                this.isCollision(gameObj);
+                if (this.collisionData.hit){
+                    this.collisionAction();
+                }
+            }
+        }
     }
 
     /* Collision detection method
@@ -62,10 +92,6 @@ class GameObject {
             } 
             
         };
-    }
-
-    triggerCollision(){
-        throw new Error("Subclass must implement collision function if collision is triggered");
     }
 }
 

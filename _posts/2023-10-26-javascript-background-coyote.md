@@ -1,19 +1,19 @@
 ---
-layout: base
+comments: false
+layout: default
+image: /images/whitechicken.png
 title: Refactored Alien World with Coyote
 description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
-image: /images/alien_planet.jpg
 type: hacks
-courses: { compsci: {week: 2} }
-image: /images/alien_planet1..jpg
+courses: { compsci: {week: 7} }
+image: /images/background2.jpg
 images:
   background:
-    src: /images/alien_planet1..jpg
+    src: /images/background2.jpg
   chicken:
-    src: /images/chickenSprite.png
+    src: /images/final-boss.png
   coyote:
     src: /images/coyote.png
-
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}

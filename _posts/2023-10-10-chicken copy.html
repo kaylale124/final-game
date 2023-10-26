@@ -12,14 +12,22 @@ courses: { compsci: {week: 7} }
 
 {% assign spriteFile = site.baseurl | append: page.sprite %}
 <style>
+    #controls {
+        position: relative;
+        z-index: 2; /* Ensure the controls are on top */
+    }
+
     #player {
-        z-index: 3;
+        z-index: 4;
     }
 </style>
 <div id="canvasContainer">
     <canvas id="backgroundID">
         <img id="backgroundImage" src="{{backgroundFile}}">
     </canvas>
+    <div id="controls"> <!-- Controls -->
+        <button id="toggleCanvasEffect">Invert</button>
+    </div>
 </div>
 
 <div id="placeholder"></div>
@@ -32,6 +40,7 @@ image.src = '{{spriteFile}}';
     // Prepare Canvas
     const canvas = document.getElementById("backgroundID");
     const ctx = canvas.getContext('2d');
+
     // Prepare Window extents related to the viewport
     const maxWidth = window.innerWidth;
     const maxHeight = window.innerHeight;
@@ -71,7 +80,7 @@ image.src = '{{spriteFile}}';
         var gameSpeed = 2;
         // Layer is set up to support Parallax, multiple layers
         class Layer {
-            constructor(image, speedRatio) {
+            constructor(backgroundImg, speedRatio) {
                 this.x = 0;
                 this.y = 0;
                 this.width = WIDTH;
@@ -118,15 +127,19 @@ image.src = '{{spriteFile}}';
        backgroundImg.addEventListener('load', function () {
         placeholderAdjust();
 
+        player.src ='{{spriteFile}}';
+    
+
         // Create a player object
         const player = new Player();
 
         // Animation function to continuously update and render the canvas
         function animate() {
             requestAnimationFrame(animate);
-
+            backgroundObj.update(); // Update background position
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
             backgroundObj.draw();
-
+            player.draw();
             // Update player position based on key states
             if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
                 player.position.x += player.speed;
@@ -139,13 +152,9 @@ image.src = '{{spriteFile}}';
                 player.rotation = 0;
             }
 
-            player.draw(); // Draw the chicken sprite
-
         }
 
         animate();
-
-        // ... (rest of your code)
     });
 
     // Define the Player class
@@ -153,31 +162,31 @@ image.src = '{{spriteFile}}';
         constructor() {
             // Initial position and velocity of the player
             this.position = {
-                x: 300,
-                y: 300
+                x: canvas.width / 2 - this.width / 2,
+                y: canvas.height - this.height - 20,
             };
 
             this.rotation = 0;
 
             this.speed = 5; // Adjust the speed as needed
             // Dimensions of the player
-            this.width = 45;
-            this.height = 45;
+            this.width = 90;
+            this.height = 90;
         }
         // Method to draw the player on the canvas using the chicken image
         draw() {
 
             ctx.save();
             ctx.translate(
-                player.position.x + player.width /2,
-                player.position.y + player.height /2
+                this.position.x + this.width /2,
+                this.position.y + this.height /2
             );
 
             ctx.rotate(this.rotation);
 
             ctx.translate(
-                -player.position.x - player.width /2,
-                -player.position.y - player.height /2
+                -this.position.x - this.width /2,
+                -this.position.y - this.height /2
             )
 
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
@@ -231,6 +240,19 @@ image.src = '{{spriteFile}}';
                 break;
         }
     });
+
+    function toggleCanvasEffect() {
+        const canvasFilter = canvas.style.filter;
+        if (canvasFilter.includes("invert")) {
+            // If the filter already contains invert, remove it
+            canvas.style.filter = "none";
+        } else {
+            // Otherwise, add invert to the filter
+            canvas.style.filter = "invert(100%)";
+        }
+    };
+
+    document.getElementById("toggleCanvasEffect").addEventListener("click", toggleCanvasEffect);
 
 
 </script>

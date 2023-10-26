@@ -4,7 +4,7 @@ title: Alien World - Dog and Background
 image: /images/alien_planet.jpg
 sprite: /images/dogSprite.png
 type: hacks
-courses: { compsci: {week: 1} }
+courses: { compsci: {week: 7} }
 ---
 
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->

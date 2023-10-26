@@ -36,17 +36,19 @@ canvas {
 #mainScreen h3 {
     font-size: 25px;
 }
-#startButton {
+.button {
     margin-top: 20px;
     margin: 0 auto;
     padding: 10px 20px;
-    font-size: 25px;
     cursor: pointer;
     background-color: #007BFF;
     color: #fff;
     border: none;
     border-radius: 5px;
     display: block;
+}
+#startButton {
+    font-size: 25px;
 }
 #startScreen {
     text-align: left;
@@ -91,18 +93,17 @@ canvas {
 }
 
 #startGameButton {
-    margin-top: 20px;
-    margin: 0 auto;
-    padding: 10px 20px;
     font-size: 18px;
-    cursor: pointer;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    display: block;
 }
 
 #startGameButton:hover {
     background-color: #0056b3;
+}
+
+#overButton {
+    position: absolute;
+    top: 50%; /* Vertically centered */
+    left: 50%; /* Horizontally centered */
+    transform: translate(-50%, -50%); /* Center the button */
+    z-index: 2; /* places element on top of other elements (bring to front) */
 }

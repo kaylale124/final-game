@@ -25,7 +25,7 @@ export class CharacterCoyote extends Character{
     // Perform a unique update
     update() {
         // slower animation 
-        if (this.delay === 20) {
+        if (this.delay === 1) {
             this.delay = 0;
             // Perform super update actions (collision checks)
             super.update();

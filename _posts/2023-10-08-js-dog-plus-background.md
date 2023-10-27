@@ -1,8 +1,8 @@
 ---
 layout: base
 title: Alien World - Dog and Background
-image: /images/alien_planet.jpg
-sprite: /images/dogSprite.png
+image: /images/background2.jpg
+sprite: /images/whitechicken.png
 type: hacks
 courses: { compsci: {week: 7} }
 ---

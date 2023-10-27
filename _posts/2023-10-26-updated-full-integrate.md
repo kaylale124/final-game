@@ -1,8 +1,6 @@
 ---
-comments: false
-layout: default
-image: /images/whitechicken.png
-title: Update Full Integration
+layout: base
+title: Mort 2
 description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
@@ -11,9 +9,10 @@ images:
   background:
     src: /images/background2.jpg
   chicken:
-    src: /images/final-boss.png
+    src: /images/whitechicken.png
   coyote:
-    src: /images/coyote.png
+    src: /images/wolf-animation2.png
+
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}
@@ -145,5 +144,78 @@ images:
     // Start the game
     gameLoop();
 
-</script>
+    //trying what ChatGPT gave to have chicken player show up
+    
 
+class Player {
+        constructor() {
+            this.position = {
+                x: canvas.width / 2,
+                y: canvas.height / 2
+            };
+        
+            this.velocity = {
+                x: 0,
+                y: 0
+            };
+        
+            this.rotation = 0;
+            this.speed = 5;
+        
+            const image = new Image();
+            image.src = "{{site.baseurl}}/images/whitechicken.png";
+                image.onload = () => {
+                     // After the image has loaded, update and draw the player
+                    this.image = image;
+                    this.width = 100;
+                    this.height = 100;
+                    this.draw();
+                };
+            }
+            draw() {
+                if (this.image) {
+                    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+                    }
+                }
+                update() {
+                    this.draw();
+                    this.position.x += this.velocity.x;
+                }
+            }
+        
+            const player = new Player();
+        
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'a') {
+                player.velocity.x = -player.speed;
+                } else if (event.key === 'd') {
+                player.velocity.x = player.speed;
+                } else if (event.key === ' ', 'w' && player.image) {
+                // Shoot a projectile when the space bar is pressed
+                const projectile = new Projectile(player.position.x, player.position.y, 5, "{{site.baseurl}}/images/egg-projectile.png");
+                projectiles.push(projectile);
+                }
+            });
+        
+            document.addEventListener('keyup', (event) => {
+                if (event.key === 'a' || event.key === 'd') {
+                    player.velocity.x = 0;
+                }
+            });
+        
+            function animate() {
+                requestAnimationFrame(animate);
+                backgroundObj.draw();
+                player.update();
+    
+                for (let i = projectiles.length - 1; i >= 0; i--) {
+                    projectiles[i].update();
+                    // Remove projectiles that are out of view
+                    if (projectiles[i].position.y < 0) {
+                        projectiles.splice(i, 1);
+                    }
+                player.draw();
+                }
+            }
+
+</script>

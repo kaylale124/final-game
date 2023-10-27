@@ -36,7 +36,7 @@ canvas {
 #mainScreen h3 {
     font-size: 25px;
 }
-.button {
+#startButton {
     margin-top: 20px;
     margin: 0 auto;
     padding: 10px 20px;
@@ -46,8 +46,6 @@ canvas {
     border: none;
     border-radius: 5px;
     display: block;
-}
-#startButton {
     font-size: 25px;
 }
 #startScreen {
@@ -93,6 +91,15 @@ canvas {
 }
 
 #startGameButton {
+    margin-top: 20px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    display: block;
     font-size: 18px;
 }
 
@@ -100,10 +107,39 @@ canvas {
     background-color: #0056b3;
 }
 
-#overButton {
+#gameOverButton {
+    margin-top: 20px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
     position: absolute;
     top: 50%; /* Vertically centered */
     left: 50%; /* Horizontally centered */
     transform: translate(-50%, -50%); /* Center the button */
     z-index: 2; /* places element on top of other elements (bring to front) */
+}
+
+
+#gameOverButton:hover {
+    background-color: #0056b3;
+}
+
+#gameOverScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99; /* Ensure it's displayed on top of the canvas */
+    display: none;
+}
+
+#gameOverImage {
+    width: 100%;
+    height: 100%;
+    z-index: 99;
 }

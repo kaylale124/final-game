@@ -19,20 +19,15 @@ images:
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}
 {% assign chickenSpriteImage = site.baseurl | append: page.images.chicken.src %}
 {% assign coyoteSpriteImage = site.baseurl | append: page.images.coyote.src %}
+<link rel="stylesheet" type="text/css" href="{{site.baseurl}}/assets/css/spaceBkg/Styles.css">
 
-<style>
-    #controls {
-        position: relative;
-        z-index: 2; /*Ensure the controls are on top*/
-    }
-</style>
 
 <!-- Prepare DOM elements -->
 <!-- Wrap both the dog canvas and controls in a container div -->
 <div id="canvasContainer">
     <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
-        <button id="toggleCanvasEffect">Invert</button>
+        <button id="toggleCanvasEffect"></button>
     </div>
 </div>
 

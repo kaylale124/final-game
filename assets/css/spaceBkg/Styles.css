@@ -123,6 +123,7 @@ canvas {
     z-index: 2; /* places element on top of other elements (bring to front) */
 }
 
+
 #gameOverButton:hover {
     background-color: #0056b3;
 }

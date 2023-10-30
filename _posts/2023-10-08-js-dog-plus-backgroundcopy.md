@@ -33,7 +33,6 @@ courses: { compsci: {week: 7} }
 <div id="canvasContainer">
     <div id="controls"> <!-- Controls -->
         <button id="toggleCanvasEffect">Invert</button>
-
         <input type="radio" name="animation" id="idle">
         <label for="idle">Idle</label>
         <input type="radio" name="animation" id="barking">

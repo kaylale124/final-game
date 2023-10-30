@@ -1,32 +1,32 @@
 ---
-hide: false
-layout: base
+comments: false
+layout: default
+image: /images/whitechicken.png
+title: Refactored Alien World with Coyote and Chicken
+description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
-image: /images/alien_planet.jpg
+image: /images/background2.jpg
 images:
   background:
-    src: /images/alien_planet2.jpg
-  platform:
-    src: /images/platform.png
-  dog:
-    src: /images/dogSprite.png
-  monkey:
-    src: /images/monkeySprite.png
-  vader:
-    src: /images/vaderSprite.png
+    src: /images/background2.jpg
+  chicken:
+    src: /images/final-boss.png
+  coyote:
+    src: /images/coyote.png
+monkey:
+    src: /images/whitechicken.png
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}
-{% assign platformFile = site.baseurl | append: page.images.platform.src %}
-{% assign dogSpriteImage = site.baseurl | append: page.images.dog.src %}
+{% assign chickenSpriteImage = site.baseurl | append: page.images.chicken.src %}
+{% assign coyoteSpriteImage = site.baseurl | append: page.images.coyote.src %}
 {% assign monkeySpriteImage = site.baseurl | append: page.images.monkey.src %}
-{% assign vaderSpriteImage = site.baseurl | append: page.images.vader.src %}
 
 <style>
     #controls {
         position: relative;
-        z-index: 2; /* Ensure the controls are on top */
+        z-index: 2; /*Ensure the controls are on top*/
     }
 </style>
 
@@ -36,13 +36,6 @@ images:
     <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
         <button id="toggleCanvasEffect">Invert</button>
-        <!-- Dog controls -->
-        <input type="radio" name="animation" id="idle">
-        <label for="idle">Idle</label>
-        <input type="radio" name="animation" id="barking">
-        <label for="barking">Barking</label>
-        <input type="radio" name="animation" id="walking" checked>
-        <label for="walking">Walking</label>
     </div>
 </div>
 
@@ -51,10 +44,9 @@ images:
     import GameObject from '{{site.baseurl}}/assets/js/alienWorld/GameObject.js';
     import Background from '{{site.baseurl}}/assets/js/alienWorld/Background.js';
     import Character from '{{site.baseurl}}/assets/js/alienWorld/Character.js';
-    import { initPlatform } from '{{site.baseurl}}/assets/js/alienWorld/Platform.js';
-    import { initDog } from '{{site.baseurl}}/assets/js/alienWorld/CharacterDog.js';
+    import { initChicken } from '{{site.baseurl}}/assets/js/alienWorld/CharacterChicken.js';
+    import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote.js';
     import { initMonkey } from '{{site.baseurl}}/assets/js/alienWorld/CharacterMonkey.js';
-    import { initVader } from '{{site.baseurl}}/assets/js/alienWorld/CharacterVader.js';
 
     // Create a function to load an image and return a Promise
     async function loadImage(src) {
@@ -86,7 +78,7 @@ images:
     });
 
     // Toggle "canvas filter property" between alien and normal
-    var isFilterEnabled = false;
+    var isFilterEnabled = true;
     const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
     toggleCanvasEffect.addEventListener("click", function () {
         for (var gameObj of GameObject.gameObjectArray){
@@ -101,17 +93,15 @@ images:
         isFilterEnabled = !isFilterEnabled;  // switch boolean value
     });
   
-
     // Setup and store Game Objects
-    async function setupGame() {   
+    async function setupGame() {
         try {
             // Open image files for Game Objects
-            const [backgroundImg, platformImg, dogImg, monkeyImg, vaderImg] = await Promise.all([
+            const [backgroundImg, chickenImg, coyoteImg,monkeyImg] = await Promise.all([
                 loadImage('{{backgroundFile}}'),
-                loadImage('{{platformFile}}'),
-                loadImage('{{dogSpriteImage}}'),
-                loadImage('{{monkeySpriteImage}}'),
-                loadImage('{{vaderSpriteImage}}')
+                loadImage('{{chickenSpriteImage}}'),
+                loadImage('{{coyoteSpriteImage}}'),
+                loadImage('{{site.baseurl}}/images/whitechicken.png'),
             ]);
 
             // Setup Globals
@@ -123,43 +113,34 @@ images:
             backgroundCanvas.id = "background";
             document.querySelector("#canvasContainer").appendChild(backgroundCanvas);
             // Background object
-            const backgroundSpeedRatio = 0.2
+            const backgroundSpeedRatio = 0
             new Background(backgroundCanvas, backgroundImg, backgroundSpeedRatio);  // Background Class calls GameObject Array which stores the instance
 
-            // Prepare HTML with Platform Canvas
-            const platformCanvas = document.createElement("canvas");
-            platformCanvas.id = "platform";
-            document.querySelector("#canvasContainer").appendChild(platformCanvas);
-            // Platform object
-            const platformSpeedRatio = 0.2;
-            initPlatform(platformCanvas, platformImg, platformSpeedRatio);
+            // Prepare HTML with Chicken Canvas
+            const chickenCanvas = document.createElement("canvas");
+            chickenCanvas.id = "characters";
+            document.querySelector("#canvasContainer").appendChild(chickenCanvas);
+            // Chicken object
+            const chickenSpeedRatio = 0
+            initChicken(chickenCanvas, chickenImg, chickenSpeedRatio);
+            
+            // Prepare HTML with many Coyotes
+            for (var i = 0; i < 10; i++) {
+                const coyoteCanvas = document.createElement("canvas");
+                coyoteCanvas.id = "characters";
+                document.querySelector("#canvasContainer").appendChild(coyoteCanvas);
+                // Coyote object
+                const coyoteSpeedRatio = 0
+                initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
+            }
 
-            // Prepare HTML with Dog Canvas
-            const dogCanvas = document.createElement("canvas");
-            dogCanvas.id = "characters";
-            document.querySelector("#canvasContainer").appendChild(dogCanvas);
-            // Dog object
-            const dogSpeedRatio = 0.2
-            initDog(dogCanvas, dogImg, dogSpeedRatio, document.getElementById("controls"));
-
-            // Prepare HTML with Monkey Canvas
             const monkeyCanvas = document.createElement("canvas");
             monkeyCanvas.id = "characters";
             document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
             // Monkey object
             const monkeySpeedRatio = 0.7
-            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);              
- 
-            // Prepare HTML with Vader Canvas
-            const vaderCanvas = document.createElement("canvas");
-            vaderCanvas.id = "characters";
-            document.querySelector("#canvasContainer").appendChild(vaderCanvas);
-            // Vader object
-            const vaderSpeedRatio = 0
-            initVader(vaderCanvas, vaderImg, vaderSpeedRatio); 
+            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
 
-            //var platform = new Platform(0, GameEnv.bottom - 50, GameEnv.innerWidth, 10);
-        
         // Trap errors on failed image loads
         } catch (error) {
             console.error('Failed to load one or more images:', error);

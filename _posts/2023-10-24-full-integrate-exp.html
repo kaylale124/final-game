@@ -103,9 +103,9 @@ courses: { compsci: {week: 7} }
                 document.addEventListener('keydown', (event) => {
                     if (event.key === 'a') {
                         player.velocity.x = -player.speed;
-                    } else if (event.key === 'd') {
+                  } else if (event.key === 'd') {
                         player.velocity.x = player.speed;
-                    } else if (event.key === ' ', 'w' && player.image) {
+                    } else if (event.key === ' ' && player.image) {
                         // Shoot a projectile when the space bar is pressed
                         const projectile = new Projectile(player.position.x, player.position.y, 5, "{{site.baseurl}}/images/egg-projectile.png");
                         projectiles.push(projectile);

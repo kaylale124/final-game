@@ -12,7 +12,6 @@ images:
     src: /images/whitechicken.png
   coyote:
     src: /images/wolf-animation2.png
-
 ---
 
 <!-- Liquid code, run by Jekyll, used to define the location of assets -->

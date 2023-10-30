@@ -7,7 +7,7 @@ const MonkeyAnimation = {
     width: 225,
     height: 225,
 	d: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk right with 'd' key
-	a: { row: 1, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
+	a: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
     w: { row: 0, frames: 0 }
 }
 
@@ -24,6 +24,10 @@ export class CharacterMonkey extends Character{
             MonkeyAnimation.scale
         );
         // Initial position at the bottom center
+        this.position = {
+            x: 447.5,
+            y: 1920
+        }
         this.isIdle = true;
         this.gravityEnabled = false;
 
@@ -37,10 +41,6 @@ export class CharacterMonkey extends Character{
         }
         else if (this.frameY === MonkeyAnimation.d.row && !this.isIdle){
             this.x += this.speed;
-        }
-        else if (this.frameY === MonkeyAnimation.w.row && !this.isIdle && GameEnv.bottom <= this.y) {
-            // jump by changing velocity (only can jump if on ground)
-            this.yVelocity = -10;
         } else if (GameEnv.bottom <= this.y) {
             // do idle frame
             this.setFrameY(defaultIdleFrame.row);

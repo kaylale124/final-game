@@ -138,7 +138,7 @@ monkey:
             monkeyCanvas.id = "characters";
             document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
             // Monkey object
-            const monkeySpeedRatio = 0.7
+            const monkeySpeedRatio = 1
             initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
 
         // Trap errors on failed image loads

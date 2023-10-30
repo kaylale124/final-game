@@ -3,15 +3,15 @@ import Character from './Character.js';
 
 const MonkeyAnimation = {
     // Sprite properties
-    scale: 2,
-    width: 40,
-    height: 40,
-	d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }, // Walk right with 'd' key
-	a: { row: 1, frames: 15, idleFrame: { column: 7, frames: 0 } }, // Walk left with 'a' key
-    w: { row: 9, frames: 15 }
+    scale: 0.25,
+    width: 225,
+    height: 225,
+	d: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk right with 'd' key
+	a: { row: 1, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
+    w: { row: 0, frames: 0 }
 }
 
-const defaultIdleFrame = { row: 0, column: 7, frames: 0 };
+const defaultIdleFrame = { row: 0, column: 0, frames: 0 };
 
 export class CharacterMonkey extends Character{
     // constructors sets up Character object 
@@ -23,6 +23,7 @@ export class CharacterMonkey extends Character{
             MonkeyAnimation.height, 
             MonkeyAnimation.scale
         );
+        // Initial position at the bottom center
         this.isIdle = true;
         this.gravityEnabled = false;
 

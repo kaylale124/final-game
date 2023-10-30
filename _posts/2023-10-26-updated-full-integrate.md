@@ -11,7 +11,7 @@ images:
   chicken:
     src: /images/whitechicken.png
   coyote:
-    src: /images/wolf-animation2.png
+    src: /images/wolf-animation2.pngpla
 
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->

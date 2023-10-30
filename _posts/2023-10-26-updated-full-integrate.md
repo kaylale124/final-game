@@ -23,6 +23,7 @@ images:
 <!-- Prepare DOM elements -->
 <!-- Wrap both the canvas and controls in a container div -->
 <div id="canvasContainer">
+<div id="score" class="score-display">Score: 100</div>
     <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
         <button id="toggleCanvasEffect"></button>
@@ -36,7 +37,7 @@ images:
     import Character from '{{site.baseurl}}/assets/js/alienWorld/Character.js';
     import { initChicken } from '{{site.baseurl}}/assets/js/alienWorld/CharacterChicken.js';
     import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote2.js';
-
+    import { increaseScore, updateScore } from '{{site.baseurl}}/assets/js/alienWorld/Scoring.js';
     // Array to store visible coyotes
     const visibleCoyotes = [];
 
@@ -51,7 +52,7 @@ function removeCoyote(coyote) {
             const coyoteCanvas = coyote.canvas;
             coyoteCanvas.parentNode.removeChild(coyoteCanvas);
         }
-    }, 3350); // Remove after 3 seconds (3000 milliseconds)
+    }, 12500); // Remove after 3 seconds (3000 milliseconds)
 }
 
     // Create a function to load an image and return a Promise
@@ -75,7 +76,7 @@ function removeCoyote(coyote) {
 const currentTime = performance.now();
 for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
     const coyote = visibleCoyotes[i];
-    if (currentTime - coyote.startTime >= 3350) {
+    if (currentTime - coyote.startTime >= 12500) {
         // Remove the coyote canvas from the DOM
         const coyoteCanvas = coyote.coyote.canvas;
         coyoteCanvas.parentNode.removeChild(coyoteCanvas);

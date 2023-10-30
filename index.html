@@ -1,10 +1,13 @@
 ---
 layout: base
 image: /images/background2.jpg
+over: /images/gameover.png
 ---
 
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.image %}
+{% assign overFile = site.baseurl | append: page.over %}
+
 <link rel="stylesheet" type="text/css" href="{{site.baseurl}}/assets/css/spaceBkg/Styles.css">
 
 <!-- Prepare DOM elements -->
@@ -12,6 +15,9 @@ image: /images/background2.jpg
     <canvas id="backgroundID">
         <img id="backgroundImage" src="{{backgroundFile}}">
     </canvas>
+    <div id="overScreen" class="hidden">
+        <img id="gameOverImage" src="{{overFile}}">
+    </div>
 </div>
 
 <!-- loading screen-->
@@ -64,6 +70,11 @@ image: /images/background2.jpg
     <button id="startGameButton" onclick="startGame()">Start Game</button>
 </div>
 
+<!--game over button-->
+<div>
+    <button class="hidden" id="gameOverButton">Click to show game over screen</button>
+</div>
+
 <script>
     // Prepare Background Image
     const backgroundImg = new Image();
@@ -90,6 +101,14 @@ image: /images/background2.jpg
     // global variables for bkg image sizing
     const WIDTH = backgroundImg.width;  // Image() width (meta data)
     const HEIGHT = backgroundImg.height;
+
+    //game over var and image and screen
+    var gameOverButton = document.getElementById('gameOverButton');
+    var overScreen = document.getElementById('overScreen');
+
+    const gameOverImage = document.getElementById('gameOverImage');
+    gameOverImage.width = canvas.innerWidth
+    gameOverImage.height = canvas.innerHeight    
 
 backgroundImg.onload = function () {
     // Setup background constants from background image
@@ -214,7 +233,7 @@ var startGameRemove = ["mainScreen", "startScreen", "characterList", "startGameB
 //start the game
 function startGame() {
     if (selectedCharacter) {
-        alert(`Game starting with ${selectedCharacter}`);
+        // look here alert(`Game starting with ${selectedCharacter}`);
         // Remove elements using a loop
         for (var i = 0; i < startGameRemove.length; i++) {
             var element = document.getElementById(startGameRemove[i]);
@@ -225,6 +244,9 @@ function startGame() {
                     element.remove();
                 }
             }
+        }
+        if (gameOverButton) {
+            gameOverButton.classList.remove('hidden');
         }
         // Add logic to proceed to the actual game
     } else {
@@ -253,5 +275,43 @@ function navigateCharacter(direction) {
 
     selectCharacter(characters[newIndex].id);
 }
+
+//function of gameover button
+var backgroundImage = document.getElementById('backgroundImage')
+
+//set dimensions for gameoverimage
+gameOverImage.onload = function () {
+    const ASPECT_RATIO = WIDTH / HEIGHT;
+    const ADJUST = 1.42; // visual layer adjust, use “1” for a perfect loop
+    
+    const overWidth = maxWidth;
+    const overHeight = overWidth / ASPECT_RATIO;
+    const overLeft = 0;
+    const overTop = 60;
+    
+    // Set dimensions for the gameOverImage
+    gameOverImage.width = overWidth;
+    gameOverImage.height = overHeight;
+    
+    // Set Style properties for the gameOverImage
+    gameOverImage.style.width = `${overWidth}px`;
+    gameOverImage.style.height = `${overHeight}px`;
+    gameOverImage.style.position = 'absolute';
+    gameOverImage.style.left = `${overLeft}px`;
+    gameOverImage.style.top = `${overTop}px`;
+};
+
+
+document.getElementById('gameOverButton').addEventListener('click', function() {
+    if(gameOverButton){
+        gameOverButton.remove()
+    }
+        canvas.remove()
+        backgroundImage.src="{{overFile}}"
+    if (overScreen) {
+        overScreen.classList.remove('hidden');
+    }
+    gameOverImage.style.zIndex = 999;
+});
 
 </script>

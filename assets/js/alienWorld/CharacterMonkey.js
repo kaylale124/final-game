@@ -32,8 +32,8 @@ export class CharacterMonkey extends Character {
         );
         // Initial position at the bottom center
         this.position = {
-            x: 447.5,
-            y: 1920
+            x: this.canvas.width / 2,
+            y: 0
         }
         this.isIdle = true;
         this.gravityEnabled = false;
@@ -41,6 +41,12 @@ export class CharacterMonkey extends Character {
         this.yVelocity = 0;
     }
 
+    size() {
+        super.size();
+        if (!GameEnv.prevInnerWidth) {
+            this.setY(GameEnv.bottom);
+        }
+    }
     // Monkey perform a unique update
     update() {
         if (this.frameY === MonkeyAnimation.a.row && !this.isIdle) {
@@ -55,16 +61,18 @@ export class CharacterMonkey extends Character {
             this.setMaxFrame(defaultIdleFrame.frames);
             this.idle = true;
         }
-
+        /*
         if (GameEnv.bottom > this.y) {
             // gravity (using acceleration instead of velocity, needed for jump implementation)
             this.yVelocity += 0.5;
+        
         } else {
             // normal force (basically disables gravity if on the ground)
             this.yVelocity = Math.min(0, this.yVelocity);
         }
 
         this.y += this.yVelocity;
+        */
 
         // Perform super update actions
         super.update();
@@ -120,13 +128,13 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio) {
             monkey.setFrameX(MonkeyAnimation['a'].idleFrame.column);
             monkey.setMaxFrame(MonkeyAnimation['a'].idleFrame.frames);
             monkey.isIdle = false;
-            monkey.velocity.x = -monkey.speed;  // Move the monkey to the left
+            monkey.velocity.x -= monkey.speed;  // Move the monkey to the left
         } else if (event.key === 'd') {
             monkey.setFrameY(MonkeyAnimation['d'].row);
             monkey.setFrameX(MonkeyAnimation['d'].idleFrame.column);
             monkey.setMaxFrame(MonkeyAnimation['d'].idleFrame.frames);
             monkey.isIdle = false;
-            monkey.velocity.x = -monkey.speed;  // Move the monkey to the right
+            monkey.velocity.x += monkey.speed;  // Move the monkey to the right
         }
     });
     
@@ -160,6 +168,7 @@ document.addEventListener('keyup', function (event) {
             monkey.isIdle = true;
         }
     });
+
 
     // Monkey Object
     return monkey;

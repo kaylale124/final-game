@@ -64,7 +64,7 @@ monkey:
     import Background from '{{site.baseurl}}/assets/js/alienWorld/Background.js';
     import Character from '{{site.baseurl}}/assets/js/alienWorld/Character.js';
     import { initChicken } from '{{site.baseurl}}/assets/js/alienWorld/CharacterChicken.js';
-    import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote.js';
+    import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote2.js';
     import { initMonkey } from '{{site.baseurl}}/assets/js/alienWorld/CharacterMonkey.js';
 
     // Create a function to load an image and return a Promise
@@ -142,6 +142,13 @@ monkey:
             // Chicken object
             const chickenSpeedRatio = 0
             initChicken(chickenCanvas, chickenImg, chickenSpeedRatio);
+
+            const monkeyCanvas = document.createElement("canvas");
+            monkeyCanvas.id = "characters";
+            document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
+            // Monkey object
+            const monkeySpeedRatio = 5
+            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);  
             
             // Prepare HTML with many Coyotes
             for (var i = 0; i < 10; i++) {
@@ -152,13 +159,7 @@ monkey:
                 const coyoteSpeedRatio = 0
                 initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
             }
-
-            const monkeyCanvas = document.createElement("canvas");
-            monkeyCanvas.id = "characters";
-            document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
-            // Monkey object
-            const monkeySpeedRatio = 5
-            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
+ 
 
         // Trap errors on failed image loads
         } catch (error) {

@@ -25,6 +25,11 @@ export class CharacterCoyote2 extends Character{
 
     collisionAction() {
         this.remove(); // Remove the coyote when it collides with something
+        this.canvas.remove();
+        /*
+        canvas.remove()
+        backgroundImage.src="{{overFile}}"
+        */
     }
 
     // Perform a unique update

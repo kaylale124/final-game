@@ -1,4 +1,4 @@
-class Player {
+class Monkey {
     constructor() {
         this.position = {
             x: canvas.width / 2,

@@ -1,17 +1,16 @@
-import GameEnv from './GameEnv.js';
-import Character from './Character.js';
+import GameEnv from '../alienWorld/GameEnv.js';
+import Character from '../alienWorld/Character.js';
 
 const MonkeyAnimation = {
     // Sprite properties
-    scale: 0.25,
-    width: 225,
-    height: 225,
+    scale: 2,
+    width: 40,
+    height: 40,
 	d: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk right with 'd' key
 	a: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
-    w: { row: 0, frames: 0 }
 }
 
-const defaultIdleFrame = { row: 0, column: 0, frames: 0 };
+const defaultIdleFrame = { row: 0, column: 7, frames: 0 };
 
 export class CharacterMonkey extends Character{
     // constructors sets up Character object 
@@ -23,11 +22,6 @@ export class CharacterMonkey extends Character{
             MonkeyAnimation.height, 
             MonkeyAnimation.scale
         );
-        // Initial position at the bottom center
-        this.position = {
-            x: 447.5,
-            y: 1920
-        }
         this.isIdle = true;
         this.gravityEnabled = false;
 
@@ -41,6 +35,10 @@ export class CharacterMonkey extends Character{
         }
         else if (this.frameY === MonkeyAnimation.d.row && !this.isIdle){
             this.x += this.speed;
+        }
+        else if (this.frameY === MonkeyAnimation.w.row && !this.isIdle && GameEnv.bottom <= this.y) {
+            // jump by changing velocity (only can jump if on ground)
+            this.yVelocity = -10;
         } else if (GameEnv.bottom <= this.y) {
             // do idle frame
             this.setFrameY(defaultIdleFrame.row);

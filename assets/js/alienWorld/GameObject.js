@@ -6,6 +6,7 @@ class GameObject {
     constructor(canvas, image, speedRatio) {
         this.x = 0;
         this.y = 0;
+        this.zIndex = 12;
         this.frame = 0;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -48,7 +49,12 @@ class GameObject {
     collisionAction(){
         // no action
     }
-
+    remove() {
+        const index = GameObject.gameObjectArray.indexOf(this);
+        if (index !== -1) {
+            GameObject.gameObjectArray.splice(index, 1);
+        }
+    }
     /* Collision checks
      * uses GameObject isCollision to detect hit
      * calls collisionAction on hit
@@ -58,6 +64,7 @@ class GameObject {
             if (this != gameObj ) {
                 this.isCollision(gameObj);
                 if (this.collisionData.hit){
+                    gameObj.remove();
                     this.collisionAction();
                 }
             }

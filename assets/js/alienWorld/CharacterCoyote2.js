@@ -27,6 +27,23 @@ export class CharacterCoyote2 extends Character{
         this.remove(); // Remove the coyote when it collides with something
     }
 
+    collisionAction() {
+        // Check for collisions with other game objects (e.g., coyote)
+        for (const monkey of GameObject.gameObjectArray) {
+            // Check if the monkey and coyote have collided based on their positions
+            if (
+                this.x < monkey.x + monkey.width &&
+                this.x + this.width > monkey.x &&
+                this.y < monkey.y + monkey.height &&
+                this.y + this.height > monkey.y
+            ) {
+                // Handle the collision, e.g., show the game over screen
+                showGameOverScreen();
+                // You can also add other actions here, like stopping the game loop
+            }
+        }
+    }
+
     // Perform a unique update
     update() {
         // slower animation 

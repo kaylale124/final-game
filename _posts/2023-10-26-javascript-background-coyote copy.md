@@ -2,7 +2,7 @@
 comments: false
 layout: default
 image: /images/whitechicken.png
-title: Refactored Alien World with Coyote and Chicken
+title: Final Game
 description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
@@ -157,7 +157,7 @@ monkey:
             monkeyCanvas.id = "characters";
             document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
             // Monkey object
-            const monkeySpeedRatio = 1
+            const monkeySpeedRatio = 5
             initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
 
         // Trap errors on failed image loads

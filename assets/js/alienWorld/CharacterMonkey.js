@@ -105,6 +105,7 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio) {
     * changes FrameY value (selected row in sprite)
     * change MaxFrame according to value in selected animation
     */
+    // ...
     document.addEventListener('keydown', function (event) {
         if (MonkeyAnimation.hasOwnProperty(event.key)) {
             // Set variables based on the key that is pressed
@@ -113,7 +114,38 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio) {
             monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].frames);
             monkey.isIdle = false;
         }
+        
+        if (event.key === 'a') {
+            monkey.setFrameY(MonkeyAnimation['a'].row);
+            monkey.setFrameX(MonkeyAnimation['a'].idleFrame.column);
+            monkey.setMaxFrame(MonkeyAnimation['a'].idleFrame.frames);
+            monkey.isIdle = false;
+            monkey.velocity.x = -monkey.speed;  // Move the monkey to the left
+        } else if (event.key === 'd') {
+            monkey.setFrameY(MonkeyAnimation['d'].row);
+            monkey.setFrameX(MonkeyAnimation['d'].idleFrame.column);
+            monkey.setMaxFrame(MonkeyAnimation['d'].idleFrame.frames);
+            monkey.isIdle = false;
+            monkey.velocity.x = -monkey.speed;  // Move the monkey to the right
+        }
     });
+    
+
+document.addEventListener('keyup', function (event) {
+    if (MonkeyAnimation.hasOwnProperty(event.key)) {
+        // If no button is pressed then idle
+        const selectedAnimation = event.key;
+        if (MonkeyAnimation[selectedAnimation].idleFrame) {
+            monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
+            monkey.setFrameX(MonkeyAnimation[selectedAnimation].idleFrame.column);
+            monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].idleFrame.frames);
+        }
+
+        monkey.isIdle = true;
+        monkey.velocity.x = 0;  // Stop horizontal movement when the key is released
+    }
+});
+// ...
 
     document.addEventListener('keyup', function (event) {
         if (MonkeyAnimation.hasOwnProperty(event.key)) {

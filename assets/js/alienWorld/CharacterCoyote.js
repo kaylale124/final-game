@@ -34,7 +34,25 @@ export class CharacterCoyote extends Character{
         }
     }
 
+    collisionAction() {
+        // Check for collisions with other game objects (e.g., coyote)
+        for (const monkey of GameObject.gameObjectArray) {
+            // Check if the monkey and coyote have collided based on their positions
+            if (
+                this.x < monkey.x + monkey.width &&
+                this.x + this.width > monkey.x &&
+                this.y < monkey.y + monkey.height &&
+                this.y + this.height > monkey.y
+            ) {
+                // Handle the collision, e.g., show the game over screen
+                showGameOverScreen();
+                // You can also add other actions here, like stopping the game loop
+            }
+        }
+    }
 }
+
+gameOverContainer.style.display = 'none';
 
 // Can add specific initialization parameters for the dog here
 // In this case the dog is following the default character initialization

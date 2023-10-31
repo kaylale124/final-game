@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Mort 3 ://
+title: Mort 3
 description: Use JavaScript without external libraries to loop background moving across the screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
@@ -38,7 +38,22 @@ images:
     import { initChicken } from '{{site.baseurl}}/assets/js/alienWorld/CharacterChicken.js';
     import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote2.js';
     import { increaseScore, updateScore } from '{{site.baseurl}}/assets/js/alienWorld/Scoring.js';
+    // Array to store visible coyotes
+    const visibleCoyotes = [];
 
+// Function to remove coyotes after a delay
+function removeCoyote(coyote) {
+    setTimeout(() => {
+        const index = visibleCoyotes.indexOf(coyote);
+        if (index !== -1) {
+            visibleCoyotes.splice(index, 1);
+
+            // Remove the coyote from the DOM
+            const coyoteCanvas = coyote.canvas;
+            coyoteCanvas.parentNode.removeChild(coyoteCanvas);
+        }
+    }, 12500); // Remove after 3 seconds (3000 milliseconds)
+}
 
     // Create a function to load an image and return a Promise
     async function loadImage(src) {
@@ -56,7 +71,47 @@ images:
             gameObj.update();
             gameObj.draw();
         }
+// Initialize the player's score
+let score = 100;
 
+// Function to subtract points and remove a coyote
+function removeCoyote(coyote) {
+    setTimeout(() => {
+        const index = visibleCoyotes.indexOf(coyote);
+        if (index !== -1) {
+            visibleCoyotes.splice(index, 1);
+
+            // Remove the coyote from the DOM
+            const coyoteCanvas = coyote.canvas;
+            coyoteCanvas.parentNode.removeChild(coyoteCanvas);
+
+            // Subtract points
+            score -= 1; // Subtract 1 point for each coyote
+            if (score < 0) {
+                score = 0; // Ensure the score does not go below 0
+            }
+            document.getElementById("score").textContent = "Score: " + score;
+        }
+    }, 12500); // Remove after 3 seconds (3000 milliseconds)
+}
+
+// Check if any coyotes have been visible for 3 seconds and remove them
+const currentTime = performance.now();
+for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
+    const coyote = visibleCoyotes[i];
+    if (currentTime - coyote.startTime >= 12500) {
+        // Remove the coyote canvas from the DOM
+        const coyoteCanvas = coyote.coyote.canvas;
+        coyoteCanvas.parentNode.removeChild(coyoteCanvas);
+        visibleCoyotes.splice(i, 1);
+        // Subtract points
+        score -= 1; // Subtract 1 point for each coyote
+        if (score < 0) {
+            score = 0; // Ensure the score does not go below 0
+        }
+        document.getElementById("score").textContent = "Score: " + score;
+    }
+}
         requestAnimationFrame(gameLoop);  // cycle the game, aka recursion
     }
 
@@ -70,7 +125,22 @@ images:
         }
     });
 
-   
+    // Toggle "canvas filter property" between alien and normal
+    var isFilterEnabled = true;
+    const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
+    toggleCanvasEffect.addEventListener("click", function () {
+        for (var gameObj of GameObject.gameObjectArray) {
+            if (gameObj.invert && isFilterEnabled) {  // toggle off
+                gameObj.canvas.style.filter = "none";  // remove filter
+            } else if (gameObj.invert) { // toggle on
+                gameObj.canvas.style.filter = defaultFilter;  // remove filter
+            } else {
+                gameObj.canvas.style.filter = "none";  // remove filter
+            }
+        }
+        isFilterEnabled = !isFilterEnabled;  // switch boolean value
+    });
+
     // Setup and store Game Objects
     async function setupGame() {
         try {
@@ -106,10 +176,16 @@ images:
                 const coyoteCanvas = document.createElement("canvas");
                 coyoteCanvas.id = "characters";
                 document.querySelector("#canvasContainer").appendChild(coyoteCanvas);
-
                 // Coyote object
-                const coyoteSpeedRatio = 0
-                initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
+                const coyoteSpeedRatio = 0;
+                const coyote = initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
+                // Add the coyote to the visibleCoyotes array
+                visibleCoyotes.push({
+                    coyote: coyote,
+                    startTime: performance.now(),
+                });
+                // Remove the coyote after 3 seconds
+                removeCoyote(coyote);
             }
 
         // Trap errors on failed image loads
@@ -199,5 +275,3 @@ images:
         }
     }
 </script>
-
-

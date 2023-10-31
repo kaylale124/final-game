@@ -2,7 +2,7 @@
 comments: false
 layout: default
 image: /images/whitechicken.png
-title: Refactored Alien World with Coyote and Chicken
+title: Final Game
 description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
@@ -28,6 +28,23 @@ monkey:
         position: relative;
         z-index: 2; /*Ensure the controls are on top*/
     }
+
+    #gameOverContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameOverContainer img {
+    max-width: 100%;
+    max-height: 100%;
+}
 </style>
 
 <!-- Prepare DOM elements -->
@@ -37,6 +54,8 @@ monkey:
         <!-- Background controls -->
         <button id="toggleCanvasEffect">Invert</button>
     </div>
+<div id="gameOverContainer" class="hidden">
+    <img src="/{{site.baseurl}}/images/gameover.png" alt="Game Over">
 </div>
 
 <script type="module">
@@ -138,7 +157,7 @@ monkey:
             monkeyCanvas.id = "characters";
             document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
             // Monkey object
-            const monkeySpeedRatio = 1
+            const monkeySpeedRatio = 5
             initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
 
         // Trap errors on failed image loads

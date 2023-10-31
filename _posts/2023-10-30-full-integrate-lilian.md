@@ -70,22 +70,7 @@ images:
         }
     });
 
-    // Toggle "canvas filter property" between alien and normal
-    var isFilterEnabled = true;
-    const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
-    toggleCanvasEffect.addEventListener("click", function () {
-        for (var gameObj of GameObject.gameObjectArray) {
-            if (gameObj.invert && isFilterEnabled) {  // toggle off
-                gameObj.canvas.style.filter = "none";  // remove filter
-            } else if (gameObj.invert) { // toggle on
-                gameObj.canvas.style.filter = defaultFilter;  // remove filter
-            } else {
-                gameObj.canvas.style.filter = "none";  // remove filter
-            }
-        }
-        isFilterEnabled = !isFilterEnabled;  // switch boolean value
-    });
-
+   
     // Setup and store Game Objects
     async function setupGame() {
         try {
@@ -214,3 +199,5 @@ images:
         }
     }
 </script>
+
+

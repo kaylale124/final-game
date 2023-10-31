@@ -20,6 +20,11 @@ export class CharacterCoyote2 extends Character{
             CoyoteAnimation.scale
         );
         this.delay = 0;
+        
+    }
+
+    collisionAction() {
+        this.remove(); // Remove the coyote when it collides with something
     }
 
     // Perform a unique update

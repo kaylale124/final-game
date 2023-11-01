@@ -123,6 +123,13 @@ monkey:
             // Chicken object
             const chickenSpeedRatio = 0
             initChicken(chickenCanvas, chickenImg, chickenSpeedRatio);
+
+            const monkeyCanvas = document.createElement("canvas");
+            monkeyCanvas.id = "characters";
+            document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
+            // Monkey object
+            const monkeySpeedRatio = 1
+            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);
             
             // Prepare HTML with many Coyotes
             for (var i = 0; i < 10; i++) {
@@ -132,14 +139,7 @@ monkey:
                 // Coyote object
                 const coyoteSpeedRatio = 0
                 initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
-            }
-
-            const monkeyCanvas = document.createElement("canvas");
-            monkeyCanvas.id = "characters";
-            document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
-            // Monkey object
-            const monkeySpeedRatio = 1
-            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
+            }   
 
         // Trap errors on failed image loads
         } catch (error) {

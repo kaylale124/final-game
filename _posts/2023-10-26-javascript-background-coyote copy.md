@@ -7,6 +7,7 @@ description: Use JavaScript without external libraries to loop background moving
 type: hacks
 courses: { compsci: {week: 7} }
 image: /images/background2.jpg
+over: /images/gameover.png
 images:
   background:
     src: /images/background2.jpg
@@ -22,6 +23,7 @@ monkey:
 {% assign chickenSpriteImage = site.baseurl | append: page.images.chicken.src %}
 {% assign coyoteSpriteImage = site.baseurl | append: page.images.coyote.src %}
 {% assign monkeySpriteImage = site.baseurl | append: page.images.monkey.src %}
+{% assign overFile = site.baseurl | append: page.images.over %}
 
 <style>
     #controls {

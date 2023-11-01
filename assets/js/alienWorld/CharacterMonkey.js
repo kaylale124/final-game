@@ -25,13 +25,21 @@ export class CharacterMonkey extends Character{
         );
         // Initial position at the bottom center
         this.position = {
-            x: 447.5,
-            y: 1920
+            x: this.canvas.width / 2,
+            y: 0
         }
         this.isIdle = true;
         this.gravityEnabled = false;
 
         this.yVelocity = 0;
+    }
+
+    size() {
+        super.size();
+        if (!GameEnv.prevInnerWidth) {
+            this.setY(GameEnv.bottom);
+        }
+        this.setX(GameEnv.innerWidth/2);
     }
 
     // Monkey perform a unique update
@@ -49,6 +57,7 @@ export class CharacterMonkey extends Character{
             this.idle = true;
         }
 
+        /* i think this code isnt needed but will keep in comment for now
         if (GameEnv.bottom > this.y) {
             // gravity (using acceleration instead of velocity, needed for jump implementation)
             this.yVelocity += 0.5;
@@ -58,6 +67,7 @@ export class CharacterMonkey extends Character{
         }
 
         this.y += this.yVelocity;
+        */
 
         // Perform super update actions
         super.update();
@@ -87,6 +97,19 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
             monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].frames);
             monkey.isIdle = false;
         }
+        if (event.key === 'a') {
+            monkey.setFrameY(MonkeyAnimation['a'].row);
+            monkey.setFrameX(MonkeyAnimation['a'].idleFrame.column);
+            monkey.setMaxFrame(MonkeyAnimation['a'].idleFrame.frames);
+            monkey.isIdle = false;
+            monkey.velocity.x -= monkey.speed;  // Move the monkey to the left
+        } else if (event.key === 'd') {
+            monkey.setFrameY(MonkeyAnimation['d'].row);
+            monkey.setFrameX(MonkeyAnimation['d'].idleFrame.column);
+            monkey.setMaxFrame(MonkeyAnimation['d'].idleFrame.frames);
+            monkey.isIdle = false;
+            monkey.velocity.x += monkey.speed;  // Move the monkey to the right
+        }
     });
 
     document.addEventListener('keyup', function (event) {
@@ -96,6 +119,20 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
             if (MonkeyAnimation[selectedAnimation].idleFrame) {
                 monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
                 monkey.setFrameX(MonkeyAnimation[selectedAnimation].idleFrame.column)
+                monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].idleFrame.frames);
+            }
+
+            monkey.isIdle = true;
+            monkey.velocity.x = 0;
+        }
+    });
+    document.addEventListener('keyup', function (event) {
+        if (MonkeyAnimation.hasOwnProperty(event.key)) {
+            // If no button is pressed then idle
+            const selectedAnimation = event.key;
+            if (MonkeyAnimation[selectedAnimation].idleFrame) {
+                monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
+                monkey.setFrameX(MonkeyAnimation[selectedAnimation].idleFrame.column);
                 monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].idleFrame.frames);
             }
 

@@ -26,13 +26,7 @@ export class CharacterCoyote2 extends Character{
     collisionAction() {
         this.remove(); // Remove the coyote when it collides with something
         this.canvas.remove();
-        /*
-        canvas.remove()
-        backgroundImage.src="{{overFile}}"
-        */
-    }
-
-    collisionAction() {
+        /* look here
         // Check for collisions with other game objects (e.g., coyote)
         for (const monkey of GameObject.gameObjectArray) {
             // Check if the monkey and coyote have collided based on their positions
@@ -47,6 +41,7 @@ export class CharacterCoyote2 extends Character{
                 // You can also add other actions here, like stopping the game loop
             }
         }
+        */
     }
 
     // Perform a unique update

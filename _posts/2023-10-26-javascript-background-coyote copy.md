@@ -2,7 +2,7 @@
 comments: false
 layout: default
 image: /images/whitechicken.png
-title: Final Game
+title: Full Game
 description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
@@ -28,23 +28,6 @@ monkey:
         position: relative;
         z-index: 2; /*Ensure the controls are on top*/
     }
-
-    #gameOverContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#gameOverContainer img {
-    max-width: 100%;
-    max-height: 100%;
-}
 </style>
 
 <!-- Prepare DOM elements -->
@@ -54,8 +37,6 @@ monkey:
         <!-- Background controls -->
         <button id="toggleCanvasEffect">Invert</button>
     </div>
-<div id="gameOverContainer" class="hidden">
-    <img src="/{{site.baseurl}}/images/gameover.png" alt="Game Over">
 </div>
 
 <script type="module">
@@ -142,13 +123,6 @@ monkey:
             // Chicken object
             const chickenSpeedRatio = 0
             initChicken(chickenCanvas, chickenImg, chickenSpeedRatio);
-
-            const monkeyCanvas = document.createElement("canvas");
-            monkeyCanvas.id = "characters";
-            document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
-            // Monkey object
-            const monkeySpeedRatio = 5
-            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);  
             
             // Prepare HTML with many Coyotes
             for (var i = 0; i < 10; i++) {
@@ -159,7 +133,13 @@ monkey:
                 const coyoteSpeedRatio = 0
                 initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
             }
- 
+
+            const monkeyCanvas = document.createElement("canvas");
+            monkeyCanvas.id = "characters";
+            document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
+            // Monkey object
+            const monkeySpeedRatio = 1
+            initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);   
 
         // Trap errors on failed image loads
         } catch (error) {

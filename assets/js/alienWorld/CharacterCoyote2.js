@@ -94,13 +94,6 @@ export class CharacterCoyote extends Character {
     }
 
 }
-
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> c6eb59c22687d2926247e4902882978b3fc55ee0
 // Can add specific initialization parameters for the dog here
 // In this case the dog is following the default character initialization
 export function initCoyote(canvasId, image, speedRatio) {

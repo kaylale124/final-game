@@ -2,8 +2,8 @@ import GameEnv from './GameEnv.js';
 
 // scoring.js
 
-// Initialize the player's score
-let score = 100;
+// Initialize the player's score to 30
+let score = 30;
 
 // Select the score display element with the "score-display" class
 const scoreElement = document.querySelector('.score-display');
@@ -19,6 +19,7 @@ if (scoreElement) {
     scoreElement.style.padding = '5px';
     scoreElement.style.borderRadius = '5px';
 }
+
 export function updateScore() {
     const scoreElement = document.getElementById('score');
     if (scoreElement) {

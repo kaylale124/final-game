@@ -19,11 +19,21 @@ class GameObject {
         this.speed = GameEnv.gameSpeed * this.speedRatio;
         this.invert = true;
         this.collisionData = {};
+          // Initialize the canvas element
+          this.initializeCanvas();
         // Add this object to the game object array so collision can be detected
         // among other things
         GameObject.gameObjectArray.push(this); 
     }
+// Function to initialize the canvas
+initializeCanvas() {
+    this.width = this.image.width;
+    this.height = this.image.height;
 
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.ctx = this.canvas.getContext('2d');
+}
     // X position getter and setter
     getX() {
         return this.x;

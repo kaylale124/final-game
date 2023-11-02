@@ -28,7 +28,7 @@ export class CharacterCoyote extends Character {
     // Perform a unique update
     update() {
         // Slower animation
-        if (this.delay === 1) {
+        if (this.delay === 3) {
             this.delay = 0;
             // Perform super update actions (collision checks)
             super.update();
@@ -60,12 +60,12 @@ export class CharacterCoyote extends Character {
 
         // Load the explosion GIF
         const explosionGif = new Image();
-        explosionGif.src = './explosion.gif'; // Specify the correct path
+        explosionGif.src = '/final-game/images/explosion.gif';
 
         explosionGif.onload = () => {
             // Set the canvas to display the explosion GIF
-            canvas.width = CoyoteAnimation.width; // Adjust canvas size as needed
-            canvas.height = CoyoteAnimation.height; // Adjust canvas size as needed
+            canvas.width = CoyoteAnimation.width;
+            canvas.height = CoyoteAnimation.height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(explosionGif, 0, 0, CoyoteAnimation.width, CoyoteAnimation.height);
         }

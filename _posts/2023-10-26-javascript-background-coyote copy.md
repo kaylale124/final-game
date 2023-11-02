@@ -28,6 +28,7 @@ monkey:
 <!-- Prepare DOM elements -->
 <!-- Wrap both the dog canvas and controls in a container div -->
 <div id="canvasContainer">
+<div id="score" class="score-display">Score: 100</div>
         <!-- Background controls -->
         <button id="toggleCanvasEffect"></button>
 </div>
@@ -40,6 +41,7 @@ monkey:
     import { initChicken } from '{{site.baseurl}}/assets/js/alienWorld/CharacterChicken.js';
     import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote2.js';
     import { initMonkey } from '{{site.baseurl}}/assets/js/alienWorld/CharacterMonkey.js';
+    import { increaseScore, updateScore } from '{{site.baseurl}}/assets/js/alienWorld/Scoring.js';
 
     // Create a function to load an image and return a Promise
     async function loadImage(src) {
@@ -150,4 +152,5 @@ monkey:
     // Start the game
     gameLoop();
 
+GameEnv.updateScoreDisplay(); // Update the score display initially
 </script>

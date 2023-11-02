@@ -8,7 +8,6 @@ const MonkeyAnimation = {
     height: 225,
 	d: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk right with 'd' key
 	a: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
-    w: { row: 0, frames: 0 }
 }
 
 const defaultIdleFrame = { row: 0, column: 0, frames: 0 };
@@ -89,7 +88,8 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
     /* Monkey Control 
     * changes FrameY value (selected row in sprite)
     * change MaxFrame according to value in selected animation
-    */
+    */ 
+   
     document.addEventListener('keydown', function (event) {
         if (MonkeyAnimation.hasOwnProperty(event.key)) {
             // Set variables based on the key that is pressed
@@ -98,7 +98,8 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
             monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].frames);
             monkey.isIdle = false;
         }
-        if (event.key === 'a') {
+        /*
+        else if (event.key === 'a') {
             monkey.setFrameY(MonkeyAnimation['a'].row);
             monkey.setFrameX(MonkeyAnimation['a'].idleFrame.column);
             monkey.setMaxFrame(MonkeyAnimation['a'].idleFrame.frames);
@@ -111,6 +112,7 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
             monkey.isIdle = false;
             monkey.velocity.x += monkey.speed;  // Move the monkey to the right
         }
+        */
     });
 
     document.addEventListener('keyup', function (event) {
@@ -121,10 +123,10 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
                 monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
                 monkey.setFrameX(MonkeyAnimation[selectedAnimation].idleFrame.column)
                 monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].idleFrame.frames);
+                monkey.isIdle = true;
+                monkey.velocity.x = 0;
             }
 
-            monkey.isIdle = true;
-            monkey.velocity.x = 0;
         }
     });
 

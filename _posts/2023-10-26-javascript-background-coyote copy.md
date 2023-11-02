@@ -17,13 +17,15 @@ images:
     src: /images/coyote.png
 monkey:
     src: /images/whitechicken2.png
+over:
+    src: /images/gameover.png
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}
 {% assign chickenSpriteImage = site.baseurl | append: page.images.chicken.src %}
 {% assign coyoteSpriteImage = site.baseurl | append: page.images.coyote.src %}
 {% assign monkeySpriteImage = site.baseurl | append: page.images.monkey.src %}
-{% assign overFile = site.baseurl | append: page.images.over %}
+{% assign overFile = site.baseurl | append: page.images.over.src %}
 
 <!-- Prepare DOM elements -->
 <!-- Wrap both the dog canvas and controls in a container div -->

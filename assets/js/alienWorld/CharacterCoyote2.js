@@ -1,6 +1,7 @@
 import Character from './Character.js';
 import GameObject from './GameObject.js';
 import GameEnv from './GameEnv.js';
+import CharacterMonkey from './CharacterMonkey.js';
 
 const CoyoteAnimation = {
     // Sprite properties

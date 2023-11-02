@@ -6,7 +6,6 @@ class GameObject {
     constructor(canvas, image, speedRatio) {
         this.x = 0;
         this.y = 0;
-        this.zIndex = 12;
         this.frame = 0;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -43,18 +42,33 @@ class GameObject {
         this.y = y;
     }
 
-    /* Default action is no action
+    /* Destroy Game Object
+    * remove canvas element of object
+    * remove object from GameObject array
+    */
+    destroy() {
+        const index = GameObject.gameObjectArray.indexOf(this);
+        if (index !== -1) {
+            // Remove the canvas from the DOM
+            this.canvas.parentNode.removeChild(this.canvas);
+            GameObject.gameObjectArray.splice(index, 1);
+        }
+    }
+
+    /* Default collision action is no action
      * override when you extend for custom action
     */
     collisionAction(){
         // no action
     }
-    remove() {
-        const index = GameObject.gameObjectArray.indexOf(this);
-        if (index !== -1) {
-            GameObject.gameObjectArray.splice(index, 1);
-        }
+
+    /* Default floor action is no action
+     * override when you extend for custom action
+    */
+    floorAction(){
+        // no action
     }
+
     /* Collision checks
      * uses GameObject isCollision to detect hit
      * calls collisionAction on hit
@@ -64,8 +78,10 @@ class GameObject {
             if (this != gameObj ) {
                 this.isCollision(gameObj);
                 if (this.collisionData.hit){
-                    gameObj.remove();
                     this.collisionAction();
+                }
+                if (this.collisionData.atFloor) {
+                    this.floorAction();
                 }
             }
         }
@@ -81,6 +97,7 @@ class GameObject {
             this.x < otherGameObject.x + otherGameObject.collisionWidth &&
             this.y + this.collisionHeight > otherGameObject.y &&
             this.y < otherGameObject.y + otherGameObject.collisionHeight),
+            atFloor: (GameEnv.bottom <= this.y), // Check if the object's bottom edge is at or below the floor level
             touchPoints: {
                 this: {
                     object: this,

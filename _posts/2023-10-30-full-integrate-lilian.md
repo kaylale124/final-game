@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Mort 3
+title: Mort 3 ://
 description: Use JavaScript without external libraries to loop background moving across the screen. Depends on Background.js and GameObject.js.
 type: hacks
 courses: { compsci: {week: 7} }
@@ -38,81 +38,26 @@ images:
     import { initChicken } from '{{site.baseurl}}/assets/js/alienWorld/CharacterChicken.js';
     import { initCoyote } from '{{site.baseurl}}/assets/js/alienWorld/CharacterCoyote2.js';
     import { increaseScore, updateScore } from '{{site.baseurl}}/assets/js/alienWorld/Scoring.js';
-    // Array to store visible coyotes
-    const visibleCoyotes = [];
 
-// Function to remove coyotes after a delay
-function removeCoyote(coyote) {
-    setTimeout(() => {
-        const index = visibleCoyotes.indexOf(coyote);
-        if (index !== -1) {
-            visibleCoyotes.splice(index, 1);
 
-            // Remove the coyote from the DOM
-            const coyoteCanvas = coyote.canvas;
-            coyoteCanvas.parentNode.removeChild(coyoteCanvas);
-        }
-    }, 12500); // Remove after 3 seconds (3000 milliseconds)
-}
 
     // Create a function to load an image and return a Promise
     async function loadImage(src) {
         return new Promise((resolve, reject) => {
-            const image = new Image();
-            image.src = src;
-            image.onload = () => resolve(image);
-            image.onerror = reject;
+        const image = new Image();
+        image.src = src;
+        image.onload = () => resolve(image);
+        image.onerror = reject;
         });
     }
 
     // Game loop
     function gameLoop() {
-        for (var gameObj of GameObject.gameObjectArray) {
+        for (var gameObj of GameObject.gameObjectArray){
             gameObj.update();
             gameObj.draw();
         }
-// Initialize the player's score
-let score = 100;
-
-// Function to subtract points and remove a coyote
-function removeCoyote(coyote) {
-    setTimeout(() => {
-        const index = visibleCoyotes.indexOf(coyote);
-        if (index !== -1) {
-            visibleCoyotes.splice(index, 1);
-
-            // Remove the coyote from the DOM
-            const coyoteCanvas = coyote.canvas;
-            coyoteCanvas.parentNode.removeChild(coyoteCanvas);
-
-            // Subtract points
-            score -= 1; // Subtract 1 point for each coyote
-            if (score < 0) {
-                score = 0; // Ensure the score does not go below 0
-            }
-            document.getElementById("score").textContent = "Score: " + score;
-        }
-    }, 12500); // Remove after 3 seconds (3000 milliseconds)
-}
-
-// Check if any coyotes have been visible for 3 seconds and remove them
-const currentTime = performance.now();
-for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
-    const coyote = visibleCoyotes[i];
-    if (currentTime - coyote.startTime >= 12500) {
-        // Remove the coyote canvas from the DOM
-        const coyoteCanvas = coyote.coyote.canvas;
-        coyoteCanvas.parentNode.removeChild(coyoteCanvas);
-        visibleCoyotes.splice(i, 1);
-        // Subtract points
-        score -= 1; // Subtract 1 point for each coyote
-        if (score < 0) {
-            score = 0; // Ensure the score does not go below 0
-        }
-        document.getElementById("score").textContent = "Score: " + score;
-    }
-}
-        requestAnimationFrame(gameLoop);  // cycle the game, aka recursion
+        requestAnimationFrame(gameLoop);  // cycle game, aka recursion
     }
 
     // Window resize
@@ -120,7 +65,7 @@ for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
         GameEnv.setGameEnv();  // Update GameEnv dimensions
 
         // Call the sizing method on all game objects
-        for (var gameObj of GameObject.gameObjectArray) {
+        for (var gameObj of GameObject.gameObjectArray){
             gameObj.size();
         }
     });
@@ -129,7 +74,7 @@ for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
     var isFilterEnabled = true;
     const defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
     toggleCanvasEffect.addEventListener("click", function () {
-        for (var gameObj of GameObject.gameObjectArray) {
+        for (var gameObj of GameObject.gameObjectArray){
             if (gameObj.invert && isFilterEnabled) {  // toggle off
                 gameObj.canvas.style.filter = "none";  // remove filter
             } else if (gameObj.invert) { // toggle on
@@ -140,7 +85,7 @@ for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
         }
         isFilterEnabled = !isFilterEnabled;  // switch boolean value
     });
-
+  
     // Setup and store Game Objects
     async function setupGame() {
         try {
@@ -160,15 +105,15 @@ for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
             backgroundCanvas.id = "background";
             document.querySelector("#canvasContainer").appendChild(backgroundCanvas);
             // Background object
-            const backgroundSpeedRatio = 0;
-            new Background(backgroundCanvas, backgroundImg, backgroundSpeedRatio);
+            const backgroundSpeedRatio = 0
+            new Background(backgroundCanvas, backgroundImg, backgroundSpeedRatio);  // Background Class calls GameObject Array which stores the instance
 
             // Prepare HTML with Chicken Canvas
             const chickenCanvas = document.createElement("canvas");
             chickenCanvas.id = "characters";
             document.querySelector("#canvasContainer").appendChild(chickenCanvas);
             // Chicken object
-            const chickenSpeedRatio = 0;
+            const chickenSpeedRatio = 0
             initChicken(chickenCanvas, chickenImg, chickenSpeedRatio);
 
             // Prepare HTML with many Coyotes
@@ -177,15 +122,8 @@ for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
                 coyoteCanvas.id = "characters";
                 document.querySelector("#canvasContainer").appendChild(coyoteCanvas);
                 // Coyote object
-                const coyoteSpeedRatio = 0;
-                const coyote = initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
-                // Add the coyote to the visibleCoyotes array
-                visibleCoyotes.push({
-                    coyote: coyote,
-                    startTime: performance.now(),
-                });
-                // Remove the coyote after 3 seconds
-                removeCoyote(coyote);
+                const coyoteSpeedRatio = 0
+                initCoyote(coyoteCanvas, coyoteImg, coyoteSpeedRatio);
             }
 
         // Trap errors on failed image loads
@@ -193,85 +131,19 @@ for (let i = visibleCoyotes.length - 1; i >= 0; i--) {
             console.error('Failed to load one or more images:', error);
         }
     }
-
+  
     // Call and wait for Game Objects to be ready
-    setupGame().then(() => {
-        // Trigger a resize at start up
-        window.dispatchEvent(new Event('resize'));
-        toggleCanvasEffect.dispatchEvent(new Event('click'));
+    await setupGame();
 
-        // Start the game
-        gameLoop();
-    });
+    // Trigger a resize at start up
+    window.dispatchEvent(new Event('resize'));
+    toggleCanvasEffect.dispatchEvent(new Event('click'));
 
-    class Player {
-        constructor() {
-            this.position = {
-                x: canvas.width / 2,
-                y: canvas.height / 2
-            };
+    // Start the game
+    gameLoop();
 
-            this.velocity = {
-                x: 0,
-                y: 0
-            };
+// Call and wait for Game Objects to be ready
 
-            this.rotation = 0;
-            this.speed = 5;
+GameEnv.updateScoreDisplay(); // Update the score display initially
 
-            const image = new Image();
-            image.src = "{{site.baseurl}}/images/whitechicken.png";
-            image.onload = () => {
-                // After the image has loaded, update and draw the player
-                this.image = image;
-                this.width = 100;
-                this.height = 100;
-                this.draw();
-            };
-        }
-        draw() {
-            if (this.image) {
-                ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-            }
-        }
-        update() {
-            this.draw();
-            this.position.x += this.velocity.x;
-        }
-    }
-
-    const player = new Player();
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'a') {
-            player.velocity.x = -player.speed;
-        } else if (event.key === 'd') {
-            player.velocity.x = player.speed;
-        } else if (event.key === ' ' || event.key === 'w' && player.image) {
-            // Shoot a projectile when the space bar is pressed
-            const projectile = new Projectile(player.position.x, player.position.y, 5, "{{site.baseurl}}/images/egg-projectile.png");
-            projectiles.push(projectile);
-        }
-    });
-
-    document.addEventListener('keyup', (event) => {
-        if (event.key === 'a' || event.key === 'd') {
-            player.velocity.x = 0;
-        }
-    });
-
-    function animate() {
-        requestAnimationFrame(animate);
-        backgroundObj.draw();
-        player.update();
-
-        for (let i = projectiles.length - 1; i >= 0; i--) {
-            projectiles[i].update();
-            // Remove projectiles that are out of view
-            if (projectiles[i].position.y < 0) {
-                projectiles.splice(i, 1);
-            }
-            player.draw();
-        }
-    }
 </script>

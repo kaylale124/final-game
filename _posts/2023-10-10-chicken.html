@@ -83,9 +83,6 @@ courses: { compsci: {week: 7} }
         },
         left: {
             pressed: false
-        },
-        space: {
-            pressed: false
         }
     };
 
@@ -97,11 +94,9 @@ courses: { compsci: {week: 7} }
         // Update player position based on key states
         if (keys.right.pressed && player.position.x + player.width <= canvas.width - player.speed) {
             player.position.x += player.speed;
-            player.rotation = 0.15;
         } 
         else if (keys.left.pressed && player.position.x >= player.speed) {
             player.position.x -= player.speed;
-            player.rotation = -0.15;
         } else {
             player.rotation = 0;
         }
@@ -115,15 +110,8 @@ courses: { compsci: {week: 7} }
             case 65:
                 keys.left.pressed = true;
                 break;
-            case 83:
-                keys.down.pressed = true;
-                break;
             case 68:
                 keys.right.pressed = true;
-                break;
-            case 87:
-                keys.up.pressed = true;
-                break;
         }
     });
 
@@ -133,14 +121,8 @@ courses: { compsci: {week: 7} }
             case 65:
                 keys.left.pressed = false;
                 break;
-            case 83:
-                keys.down.pressed = false;
-                break;
             case 68:
                 keys.right.pressed = false;
-                break;
-            case 87:
-                keys.up.pressed = false;
                 break;
         }
     });

@@ -16,7 +16,7 @@ images:
   coyote:
     src: /images/coyote.png
 monkey:
-    src: /images/whitechicken.png
+    src: /images/whitechicken2.png
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}
@@ -96,7 +96,7 @@ monkey:
                 loadImage('{{backgroundFile}}'),
                 loadImage('{{chickenSpriteImage}}'),
                 loadImage('{{coyoteSpriteImage}}'),
-                loadImage('{{site.baseurl}}/images/whitechicken.png'),
+                loadImage('{{site.baseurl}}/images/whitechicken2.png'),
             ]);
 
             // Setup Globals
@@ -123,7 +123,7 @@ monkey:
             monkeyCanvas.id = "characters";
             document.querySelector("#canvasContainer").appendChild(monkeyCanvas);
             // Monkey object
-            const monkeySpeedRatio = 1
+            const monkeySpeedRatio = 2
             initMonkey(monkeyCanvas, monkeyImg, monkeySpeedRatio);
             
             // Prepare HTML with many Coyotes

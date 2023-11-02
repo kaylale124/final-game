@@ -3,11 +3,11 @@ import Character from './Character.js';
 
 const MonkeyAnimation = {
     // Sprite properties
-    scale: 0.25,
-    width: 225,
-    height: 225,
+    scale: 2,
+    width: 36,
+    height: 32.5,
 	d: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk right with 'd' key
-	a: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
+	a: { row: 1, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
 }
 
 const defaultIdleFrame = { row: 0, column: 0, frames: 0 };
@@ -72,6 +72,8 @@ export class CharacterMonkey extends Character{
         // Perform super update actions
         super.update();
     }
+
+
 }
 
 // Can add specific initialization parameters for the monkey here
@@ -98,22 +100,18 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
             monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].frames);
             monkey.isIdle = false;
         }
-        /*
-        else if (event.key === 'a') {
-            monkey.setFrameY(MonkeyAnimation['a'].row);
-            monkey.setFrameX(MonkeyAnimation['a'].idleFrame.column);
-            monkey.setMaxFrame(MonkeyAnimation['a'].idleFrame.frames);
+        /* else if (event.key === 'a') {
             monkey.isIdle = false;
             monkey.velocity.x -= monkey.speed;  // Move the monkey to the left
+            update();
         } else if (event.key === 'd') {
-            monkey.setFrameY(MonkeyAnimation['d'].row);
-            monkey.setFrameX(MonkeyAnimation['d'].idleFrame.column);
-            monkey.setMaxFrame(MonkeyAnimation['d'].idleFrame.frames);
             monkey.isIdle = false;
             monkey.velocity.x += monkey.speed;  // Move the monkey to the right
+            update();
         }
         */
     });
+
 
     document.addEventListener('keyup', function (event) {
         if (MonkeyAnimation.hasOwnProperty(event.key)) {

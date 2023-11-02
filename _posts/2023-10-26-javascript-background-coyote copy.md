@@ -25,20 +25,11 @@ monkey:
 {% assign monkeySpriteImage = site.baseurl | append: page.images.monkey.src %}
 {% assign overFile = site.baseurl | append: page.images.over %}
 
-<style>
-    #controls {
-        position: relative;
-        z-index: 2; /*Ensure the controls are on top*/
-    }
-</style>
-
 <!-- Prepare DOM elements -->
 <!-- Wrap both the dog canvas and controls in a container div -->
 <div id="canvasContainer">
-    <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
-        <button id="toggleCanvasEffect">Invert</button>
-    </div>
+        <button id="toggleCanvasEffect"></button>
 </div>
 
 <script type="module">

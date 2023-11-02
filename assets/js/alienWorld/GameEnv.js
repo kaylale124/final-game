@@ -58,6 +58,7 @@ export class GameEnv {
     static decrementScore(amount){
         this.score -=amount;
     }
+    
 }
 
 export default GameEnv;

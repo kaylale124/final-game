@@ -22,7 +22,13 @@ export class CharacterCoyote extends Character {
             CoyoteAnimation.scale
         );
         this.delay = 0;
-        this.collidedWithFloor = false; // Track if the coyote already collided with the floor
+        this.collidedWithFloor = false;
+    }
+     // Function to initialize the canvas
+     initializeCanvas() {
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        this.ctx = this.canvas.getContext('2d');
     }
 
     // Perform a unique update
@@ -58,18 +64,6 @@ export class CharacterCoyote extends Character {
         const duration = 1000; // Adjust the duration as needed
         let startTime = null;
 
-        // Load the explosion GIF
-        const explosionGif = new Image();
-        explosionGif.src = '/final-game/images/explosion.gif';
-
-        explosionGif.onload = () => {
-            // Set the canvas to display the explosion GIF
-            canvas.width = CoyoteAnimation.width;
-            canvas.height = CoyoteAnimation.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(explosionGif, 0, 0, CoyoteAnimation.width, CoyoteAnimation.height);
-        }
-
         function spiral(timestamp) {
             if (!startTime) {
                 startTime = timestamp;
@@ -89,6 +83,8 @@ export class CharacterCoyote extends Character {
                 requestAnimationFrame(spiral); // continue the animation loop
             } else {
                 object.destroy(); // remove object from the game
+                // Now, spawn new coyotes when a coyote is destroyed
+                spawnNewCoyote();
             }
         }
 
@@ -97,9 +93,12 @@ export class CharacterCoyote extends Character {
     }
 }
 
+
 // Can add specific initialization parameters for the dog here
 // In this case the dog is following the default character initialization
 export function initCoyote(canvasId, image, speedRatio) {
+        // Get the canvas element for coyotes by ID
+        const canvas = document.getElementById('characters');
     // Create the Dog character
     var coyote = new CharacterCoyote(canvasId, image, speedRatio);
 
@@ -109,6 +108,25 @@ export function initCoyote(canvasId, image, speedRatio) {
 
     // Dog Object
     return coyote;
+}
+
+// Create an array to store the coyotes in the game
+const coyotes = [];
+
+// Function to periodically spawn new coyotes
+export function spawnNewCoyote() {
+    console.log("Checking for spawning new coyotes");
+    // Check if all coyotes are destroyed
+    const allCoyotesDestroyed = coyotes.every(coyote => coyote.isDestroyed());
+    console.log("All coyotes destroyed:", allCoyotesDestroyed);
+
+    // If all coyotes are destroyed, spawn a new one
+    if (allCoyotesDestroyed) {
+        console.log("Spawning a new coyote");
+        // Create a new CharacterCoyote instance and add it to the array
+        const newCoyote = initCoyote(/* parameters for the new coyote */);
+        coyotes.push(newCoyote);
+    }
 }
 
 export default CharacterCoyote;

@@ -9,7 +9,7 @@ export class GameEnv {
     static gameSpeed;
     static gravity;
 
-    static score = 100;  //decrement this in floorAction and display this in DOM
+    static score = 30;  //decrement this in floorAction and display this in DOM
     // Make the constructor private to prevent instantiation
     constructor() {
         throw new Error('GameEnv is a static class and cannot be instantiated.');

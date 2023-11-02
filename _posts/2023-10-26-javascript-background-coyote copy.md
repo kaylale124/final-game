@@ -28,7 +28,7 @@ monkey:
 <!-- Prepare DOM elements -->
 <!-- Wrap both the dog canvas and controls in a container div -->
 <div id="canvasContainer">
-<div id="score" class="score-display">Score: 100</div>
+<div id="score" class="score-display">Score: 30</div>
         <!-- Background controls -->
         <button id="toggleCanvasEffect"></button>
 </div>

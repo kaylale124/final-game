@@ -23,7 +23,7 @@ images:
 <!-- Prepare DOM elements -->
 <!-- Wrap both the canvas and controls in a container div -->
 <div id="canvasContainer">
-<div id="score" class="score-display">Score: 100</div>
+<div id="score" class="score-display">Score: 30</div>
     <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
         <button id="toggleCanvasEffect"></button>

@@ -60,7 +60,7 @@ export class CharacterCoyote extends Character {
 
         // Load the explosion GIF
         const explosionGif = new Image();
-        explosionGif.src = './explosion-gif.gif'; // Specify the correct path
+        explosionGif.src = './explosion.gif'; // Specify the correct path
 
         explosionGif.onload = () => {
             // Set the canvas to display the explosion GIF

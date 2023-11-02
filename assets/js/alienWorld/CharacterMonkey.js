@@ -56,7 +56,8 @@ export class CharacterMonkey extends Character{
             this.setMaxFrame(defaultIdleFrame.frames);
             this.idle = true;
         }
-
+        // Add logic to update the position based on velocity
+    
         /* i think this code isnt needed but will keep in comment for now
         if (GameEnv.bottom > this.y) {
             // gravity (using acceleration instead of velocity, needed for jump implementation)
@@ -124,19 +125,6 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
 
             monkey.isIdle = true;
             monkey.velocity.x = 0;
-        }
-    });
-    document.addEventListener('keyup', function (event) {
-        if (MonkeyAnimation.hasOwnProperty(event.key)) {
-            // If no button is pressed then idle
-            const selectedAnimation = event.key;
-            if (MonkeyAnimation[selectedAnimation].idleFrame) {
-                monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
-                monkey.setFrameX(MonkeyAnimation[selectedAnimation].idleFrame.column);
-                monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].idleFrame.frames);
-            }
-
-            monkey.isIdle = true;
         }
     });
 

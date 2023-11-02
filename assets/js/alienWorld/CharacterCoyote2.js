@@ -96,7 +96,57 @@ export class CharacterCoyote extends Character {
         // Start the animation
         requestAnimationFrame(spiral);
     }
+
+    collisionAction() {
+        if (this.sceneStarted === false && this.collisionData.touchPoints.this.left){
+            this.sceneStarted = true;
+
+            const object = this;
+        const canvas = this.canvas;
+        const duration = 1000; // Adjust the duration as needed
+        let startTime = null;
+
+        // Load the explosion GIF
+        const explosionGif = new Image();
+        explosionGif.src = '/final-game/images/explosion.gif';
+
+        explosionGif.onload = () => {
+            // Set the canvas to display the explosion GIF
+            canvas.width = CoyoteAnimation.width;
+            canvas.height = CoyoteAnimation.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(explosionGif, 0, 0, CoyoteAnimation.width, CoyoteAnimation.height);
+        }
+
+        function spiral(timestamp) {
+            if (!startTime) {
+                startTime = timestamp;
+            }
+
+            const elapsed = timestamp - startTime;
+            if (elapsed < duration) {
+                const progress = elapsed / duration;
+
+                // Adjust opacity based on the progress
+                canvas.style.opacity = 1 - progress;
+
+                // Rotate the canvas
+                const rotationAngle = progress * (Math.random() * 2880); // Adjust the rotation speed as needed
+                canvas.style.transform = `rotate(${rotationAngle}deg`;
+
+                requestAnimationFrame(spiral); // continue the animation loop
+            } else {
+                object.destroy(); // remove object from the game
+            }
+        }
+    }
+    // Start the animation
+    requestAnimationFrame(spiral);
+    }
 }
+
+
+
 
 // Can add specific initialization parameters for the dog here
 // In this case the dog is following the default character initialization

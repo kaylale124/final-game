@@ -1,5 +1,6 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import CharacterCoyote from './CharacterCoyote2.js';
 
 const MonkeyAnimation = {
     // Sprite properties
@@ -73,8 +74,55 @@ export class CharacterMonkey extends Character{
         super.update();
     }
 
+    collisionAction() {
+        // Check if the object to collide with is a coyote
+        if (this.sceneStarted === false && this.collisionData.touchPoints.this.right){
+            this.sceneStarted = true;
+            // Start the spiraling animation for the chicken
+            const canvas = this.canvas;
+            const duration = 1000; // Adjust the duration as needed
+            let startTime = null;
 
+            // Load the explosion GIF or game over image
+            const explosionGif = new Image();
+            explosionGif.src = '/final-game/images/explosion.gif';
+
+            explosionGif.onload = () => {
+                // Set the canvas to display the explosion GIF or game over image
+                canvas.width = MonkeyAnimation.width;
+                canvas.height = MonkeyAnimation.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(explosionGif, 0, 0, MonkeyAnimation.width, MonkeyAnimation.height);
+            }
+
+            function spiral(timestamp) {
+                if (!startTime) {
+                    startTime = timestamp;
+                }
+
+                const elapsed = timestamp - startTime;
+                if (elapsed < duration) {
+                    const progress = elapsed / duration;
+
+                    // Adjust opacity based on the progress
+                    canvas.style.opacity = 1 - progress;
+
+                    // Rotate the canvas
+                    const rotationAngle = progress * (Math.random() * 2880); // Adjust the rotation speed as needed
+                    canvas.style.transform = `rotate(${rotationAngle}deg`;
+
+                    requestAnimationFrame(spiral); // continue the animation loop
+                } else {
+                    // Display the game over image or trigger the game over logic here
+                }
+            }
+
+            // Start the animation
+            requestAnimationFrame(spiral);
+        }
+    }
 }
+
 
 // Can add specific initialization parameters for the monkey here
 // In this case the monkey is following the default character initialization

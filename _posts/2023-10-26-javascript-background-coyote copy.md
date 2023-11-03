@@ -94,11 +94,11 @@ over:
     async function setupGame() {
         try {
             // Open image files for Game Objects
-            const [backgroundImg, chickenImg, coyoteImg,monkeyImg] = await Promise.all([
+            const [backgroundImg, chickenImg, monkeyImg, coyoteImg] = await Promise.all([
                 loadImage('{{backgroundFile}}'),
                 loadImage('{{chickenSpriteImage}}'),
+                 loadImage('{{site.baseurl}}/images/whitechicken2.png'),
                 loadImage('{{coyoteSpriteImage}}'),
-                loadImage('{{site.baseurl}}/images/whitechicken2.png'),
             ]);
 
             // Setup Globals

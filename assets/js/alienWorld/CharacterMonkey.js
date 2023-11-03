@@ -1,5 +1,6 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import GameObject from './GameObject.js'
 import CharacterCoyote from './CharacterCoyote2.js';
 
 const MonkeyAnimation = {
@@ -110,13 +111,8 @@ export class CharacterMonkey extends Character{
                     // Rotate the canvas
                     const rotationAngle = progress * (Math.random() * 2880); // Adjust the rotation speed as needed
                     canvas.style.transform = `rotate(${rotationAngle}deg`;
-
-                    requestAnimationFrame(spiral); // continue the animation loop
-                } else {
-                    // Display the game over image or trigger the game over logic here
                 }
             }
-
             // Start the animation
             requestAnimationFrame(spiral);
         }

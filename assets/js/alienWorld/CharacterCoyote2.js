@@ -91,7 +91,7 @@ export class CharacterCoyote extends Character {
 
         // Start the animation
         requestAnimationFrame(spiral);
-    }
+    }z
 
 }
 // Can add specific initialization parameters for the dog here
